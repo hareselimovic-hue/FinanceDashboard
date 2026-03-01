@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="bs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sarajevo Rent &amp; Manage — Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root {
+  --navy:   #0f2f61;
+  --blue:   #1a4080;
+  --accent: #ff6700;
+  --light:  #fff0e6;
+  --green:  #27ae60;
+  --red:    #e74c3c;
+  --purple: #8e44ad;
+  --gray:   #f4f7fb;
+  --border: #d4dce8;
+  --text:   #2c3e50;
+  --muted:  #7f8c8d;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--gray); color: var(--text); font-size: 14px; }
+
+/* ── Header ── */
+header {
+  background: var(--navy); color: white;
+  padding: 14px 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+header h1 { font-size: 17px; font-weight: 700; }
+header .sub { font-size: 11px; opacity: 0.6; margin-top: 2px; }
+
+.month-nav { display: flex; align-items: center; gap: 10px; }
+.month-nav select {
+  background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.25);
+  color: white; border-radius: 6px; padding: 6px 10px;
+  font-size: 14px; font-weight: 600; cursor: pointer;
+}
+.month-nav select option { background: #0f2f61; color: white; }
+.month-nav .yr-btn {
+  background: rgba(255,255,255,0.12); border: none; color: white;
+  width: 28px; height: 28px; border-radius: 50%; cursor: pointer; font-size: 15px;
+  display: flex; align-items: center; justify-content: center;
+}
+.month-nav .yr-btn:hover { background: rgba(255,255,255,0.25); }
+.month-nav .yr-lbl { font-size: 14px; font-weight: 700; min-width: 40px; text-align: center; }
+
+/* ── Main ── */
+main { padding: 20px 24px; max-width: 1480px; margin: 0 auto; }
+
+/* ── KPI ── */
+.kpi-row { display: grid; grid-template-columns: repeat(5,1fr); gap: 14px; margin-bottom: 20px; }
+.kpi {
+  background: white; border-radius: 10px; padding: 15px 18px;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.07); border-left: 4px solid var(--accent);
+}
+.kpi.fix { border-left-color: var(--muted); }
+.kpi.var { border-left-color: #e67e22; }
+.kpi.tot { border-left-color: var(--red); }
+.kpi.net { border-left-color: var(--green); }
+.kpi .label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.6px; color: var(--muted); font-weight: 700; }
+.kpi .val   { font-size: 21px; font-weight: 800; margin-top: 4px; color: var(--accent); white-space: nowrap; }
+.kpi.fix .val { color: var(--muted); }
+.kpi.var .val { color: #e67e22; }
+.kpi.tot .val { color: var(--red); }
+.kpi.net .val { color: var(--green); }
+.kpi .hint  { font-size: 10px; color: var(--muted); margin-top: 2px; }
+
+/* ── Cards ── */
+.card { background: white; border-radius: 10px; box-shadow: 0 1px 5px rgba(0,0,0,0.07); overflow: hidden; }
+.card-hd {
+  background: var(--navy); color: white;
+  padding: 11px 16px; font-weight: 600; font-size: 13px;
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+}
+.card-hd .hint { font-size: 10px; opacity: 0.65; font-weight: 400; flex: 1; }
+.card-body { padding: 16px; }
+
+/* ── Tables ── */
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th {
+  background: var(--light); color: var(--navy);
+  padding: 8px 10px; text-align: left;
+  font-size: 10px; text-transform: uppercase; letter-spacing: 0.4px; font-weight: 700;
+}
+td { padding: 7px 10px; border-bottom: 1px solid #eef2f8; vertical-align: middle; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: #fafbfd; }
+.num { text-align: right; font-variant-numeric: tabular-nums; }
+.tfoot-row td { background: var(--light); font-weight: 700; border-top: 2px solid var(--border); }
+.muted-row td { color: var(--muted); font-style: italic; }
+.fixed-row td { background: #fafbfd; }
+
+/* ── Layout ── */
+.row-main   { display: grid; grid-template-columns: 1fr 310px; gap: 20px; margin-bottom: 20px; }
+.row-costs  { display: grid; grid-template-columns: 1fr 1fr;   gap: 20px; margin-bottom: 20px; }
+.row-charts { display: grid; grid-template-columns: 2fr 1fr;   gap: 20px; margin-bottom: 20px; }
+
+/* ── Import btn ── */
+.import-btn {
+  background: var(--accent); color: white; border: none; border-radius: 6px;
+  padding: 5px 12px; font-size: 12px; font-weight: 700; cursor: pointer;
+  white-space: nowrap; flex-shrink: 0;
+}
+.import-btn:hover { filter: brightness(1.1); }
+
+/* ── Form ── */
+.form-group { margin-bottom: 10px; }
+.form-group label { display: block; font-size: 10px; text-transform: uppercase; letter-spacing: 0.4px; font-weight: 700; color: var(--muted); margin-bottom: 4px; }
+.form-group input, .form-group select {
+  width: 100%; border: 1px solid var(--border); border-radius: 6px;
+  padding: 7px 10px; font-size: 13px; color: var(--text); font-family: inherit; background: white;
+}
+.form-group input:focus, .form-group select:focus {
+  outline: none; border-color: var(--accent); box-shadow: 0 0 0 2px rgba(255,103,0,0.15);
+}
+.btn {
+  width: 100%; background: var(--navy); color: white;
+  border: none; border-radius: 6px; padding: 10px; font-size: 13px;
+  font-weight: 600; cursor: pointer; margin-top: 4px; font-family: inherit;
+}
+.btn:hover { background: var(--blue); }
+
+/* ── Misc ── */
+.badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 700; }
+.grp-lbl { font-size: 11px; color: var(--muted); }
+.del-btn { background: none; border: none; color: #ccc; cursor: pointer; font-size: 14px; padding: 2px 6px; border-radius: 4px; }
+.del-btn:hover { color: var(--red); background: #fdf0ef; }
+.empty { text-align: center; color: var(--muted); padding: 24px; font-size: 13px; line-height: 1.6; }
+.chart-wrap { padding: 14px 16px 8px; }
+
+/* ── Responsive ── */
+@media (max-width: 1100px) { .kpi-row { grid-template-columns: repeat(3,1fr); } }
+@media (max-width: 860px)  {
+  .kpi-row { grid-template-columns: repeat(2,1fr); }
+  .row-main, .row-costs, .row-charts { grid-template-columns: 1fr; }
+}
+</style>
+<!-- SRM_DATA_START -->
+<script>const SRM_EMBEDDED={"srm_inc_2026_01":[{"prop":"A1 apartman Bentbaša","agency":335.0628,"rentlio":10.0,"total":345.0628},{"prop":"A2 apartment Bentbaša","agency":242.4541,"rentlio":10.0,"total":252.4541},{"prop":"Apartman Green nest","agency":53.5467,"rentlio":10.0,"total":63.5467},{"prop":"Apartman Loft","agency":759.8564,"rentlio":9.78,"total":769.6355},{"prop":"Apartman Vraca 1","agency":42.8374,"rentlio":10.0,"total":52.8374},{"prop":"Apartment Baščaršija","agency":216.1319,"rentlio":10.0,"total":226.1319},{"prop":"Apartment Bistrik","agency":87.9185,"rentlio":10.0,"total":97.9185},{"prop":"Apartment Cable car","agency":340.352,"rentlio":10.0,"total":350.352},{"prop":"Apartment Jezero","agency":42.3398,"rentlio":10.0,"total":52.3398},{"prop":"Avenija Comfort","agency":106.8294,"rentlio":0.0,"total":106.8294},{"prop":"City Hall apartment","agency":252.616,"rentlio":10.0,"total":262.616},{"prop":"Cozy & Modern apartment - Miljacka","agency":120.0504,"rentlio":0.0,"total":120.0504},{"prop":"Cozy Coco","agency":66.6359,"rentlio":10.0,"total":76.6359},{"prop":"Cozy apartment Marijin Dvor","agency":186.2048,"rentlio":10.0,"total":196.2048},{"prop":"Family stay apartment","agency":54.7366,"rentlio":10.0,"total":64.7366},{"prop":"Grbavica Lux","agency":143.6837,"rentlio":10.0,"total":153.6837},{"prop":"Grbavica Residence","agency":150.6419,"rentlio":0.0,"total":150.6419},{"prop":"Luxury apartment Kovači","agency":280.0295,"rentlio":10.0,"total":290.0295},{"prop":"Modern Elegance Residence - Otes","agency":95.1942,"rentlio":10.0,"total":105.1942},{"prop":"Modern apartment Akademija","agency":186.4269,"rentlio":10.0,"total":196.4269},{"prop":"Sarajevo Waves","agency":62.4712,"rentlio":10.0,"total":72.4712},{"prop":"Skyline apartment","agency":228.3561,"rentlio":10.0,"total":238.3561},{"prop":"The Urban suite","agency":133.4536,"rentlio":0.0,"total":133.4536},{"prop":"The classic room","agency":173.531,"rentlio":0.0,"total":173.531},{"prop":"_armin_rentlio","agency":0,"rentlio":60.0,"total":60.0}]};</script>
+<!-- SRM_DATA_END -->
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>Sarajevo Rent &amp; Manage</h1>
+    <div class="sub">Finansijski Dashboard · Agencijski prihodi &amp; Troškovi</div>
+  </div>
+  <div class="month-nav">
+    <select id="monthSel" onchange="onMonthChange(+this.value)"></select>
+    <button class="yr-btn" onclick="changeYear(-1)">‹</button>
+    <span class="yr-lbl" id="yearLbl">2026</span>
+    <button class="yr-btn" onclick="changeYear(1)">›</button>
+  </div>
+</header>
+
+<main>
+
+  <!-- KPI × 5 -->
+  <div class="kpi-row">
+    <div class="kpi">
+      <div class="label">Prihod agencije</div>
+      <div class="val" id="kpiInc">—</div>
+      <div class="hint">Provizija + Rentlio naknade</div>
+    </div>
+    <div class="kpi fix">
+      <div class="label">Fiksni troškovi</div>
+      <div class="val" id="kpiFix">3.400,00 BAM</div>
+      <div class="hint">Svaki mjesec isti</div>
+    </div>
+    <div class="kpi var">
+      <div class="label">Varijabilni troškovi</div>
+      <div class="val" id="kpiVar">0,00 BAM</div>
+      <div class="hint">Uneseni ručno</div>
+    </div>
+    <div class="kpi tot">
+      <div class="label">Ukupni troškovi</div>
+      <div class="val" id="kpiTot">3.400,00 BAM</div>
+      <div class="hint">Fiksni + Varijabilni</div>
+    </div>
+    <div class="kpi net">
+      <div class="label">Neto profit</div>
+      <div class="val" id="kpiNet">—</div>
+      <div class="hint">Prihod − Ukupni troškovi</div>
+    </div>
+  </div>
+
+  <!-- Income table + Var expense form -->
+  <div class="row-main">
+
+    <div class="card">
+      <div class="card-hd">
+        Prihodi po nekretnini
+        <span class="hint">Uvezi Rentlio CSV da popuniš automatski</span>
+        <input type="file" id="csvInput" accept=".csv" style="display:none" onchange="importCSV(this)">
+        <button class="import-btn" onclick="document.getElementById('csvInput').click()">↑ Uvezi iz CSV</button>
+      </div>
+      <div style="padding:0">
+        <table>
+          <thead>
+            <tr>
+              <th>Nekretnina</th>
+              <th>Grupa</th>
+              <th class="num">Prov. agencije (BAM)</th>
+              <th class="num">Rentlio naknada (BAM)</th>
+              <th class="num">Ukupno agenciji (BAM)</th>
+            </tr>
+          </thead>
+          <tbody id="incBody"></tbody>
+          <tfoot>
+            <tr class="tfoot-row">
+              <td colspan="2">UKUPNO</td>
+              <td class="num" id="incT1">0,00</td>
+              <td class="num" id="incT2">0,00</td>
+              <td class="num" id="incT3">0,00</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hd">Dodaj varijabilni trošak</div>
+      <div class="card-body">
+        <div class="form-group">
+          <label>Datum</label>
+          <input type="date" id="fDate">
+        </div>
+        <div class="form-group">
+          <label>Kategorija</label>
+          <select id="fCat">
+            <option>Osoblje</option>
+            <option>Marketing</option>
+            <option>Održavanje</option>
+            <option>Softver / Pretplate</option>
+            <option>Komunalije</option>
+            <option>Putni troškovi</option>
+            <option>Ostalo</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Opis</label>
+          <input type="text" id="fDesc" placeholder="npr. Popravka bojlera">
+        </div>
+        <div class="form-group">
+          <label>Iznos (BAM)</label>
+          <input type="number" id="fAmt" placeholder="0.00" step="0.01" min="0">
+        </div>
+        <button class="btn" onclick="addExpense()">+ Dodaj trošak</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Fixed + Variable costs lists -->
+  <div class="row-costs">
+
+    <div class="card">
+      <div class="card-hd">Fiksni troškovi <span class="hint">Svaki mjesec · nije potrebno unositi</span></div>
+      <div style="padding:0">
+        <table>
+          <thead><tr><th>Stavka</th><th class="num">Iznos (BAM)</th></tr></thead>
+          <tbody id="fixedBody"></tbody>
+          <tfoot>
+            <tr class="tfoot-row">
+              <td>UKUPNO FIKSNI</td>
+              <td class="num">3.400,00</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hd">Varijabilni troškovi <span class="hint" id="varMonthLbl">—</span></div>
+      <div style="padding:0">
+        <table>
+          <thead>
+            <tr>
+              <th>Datum</th>
+              <th>Kategorija</th>
+              <th>Opis</th>
+              <th class="num">Iznos (BAM)</th>
+              <th style="width:40px;text-align:center">—</th>
+            </tr>
+          </thead>
+          <tbody id="varBody"></tbody>
+          <tfoot>
+            <tr class="tfoot-row">
+              <td colspan="3">UKUPNO VARIJABILNI</td>
+              <td class="num" id="varTotal">0,00</td>
+              <td></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Charts -->
+  <div class="row-charts">
+    <div class="card">
+      <div class="card-hd">Prihod vs Troškovi — svih 12 mjeseci <span class="hint" id="barYear"></span></div>
+      <div class="chart-wrap"><canvas id="barChart"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-hd">Varijabilni troškovi po kategoriji</div>
+      <div class="chart-wrap"><canvas id="pieChart"></canvas></div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+// ── Finansijske konstante (mirror generate_reports.py) ─────────────
+const EUR_BAM = 1.95583;
+
+const EXCEPTION_20PCT  = new Set(["Cozy & Modern apartment - Miljacka"]);
+const EXCEPTION_25PCT  = new Set([
+  "Otoka 1bdr apartment", "Otoka 2bdr apartment", "Grbavica Residence",
+  "The classic room", "The Urban suite", "The Couple's Corner",
+]);
+const AVENIJA_PROPS       = new Set(["Avenija Comfort"]);
+const AVENIJA_KLIJENT_PCT = 0.66;
+const AVENIJA_BOOKING_PCT = 0.15;
+
+const RENTLIO_ZERO = new Set(["Avenija Comfort", "Apartman Bulbul", "Cozy & Modern apartment - Miljacka"]);
+const ARMIN_PROPS  = new Set([
+  "Grbavica Residence", "Otoka 1bdr apartment", "Otoka 2bdr apartment",
+  "The classic room", "The Couple's Corner", "The Urban suite",
+]);
+const LOFT_PROPS        = new Set(["Apartman Loft"]);
+const DEFAULT_RENTLIO   = 10;
+const ARMIN_RENTLIO_BAM = 60;
+const LOFT_RENTLIO_BAM  = 5 * EUR_BAM;  // ≈ 9.78 BAM
+
+const BENTBASA_PROPS = new Set(["A1 apartman Bentbaša", "A2 apartment Bentbaša"]);
+const VRACA_PROPS    = new Set(["Apartman Vraca 1", "Apartman Vraca 2"]);
+
+function agencyPct(prop) {
+  if (AVENIJA_PROPS.has(prop))    return 1 - AVENIJA_KLIJENT_PCT; // 34%
+  if (EXCEPTION_20PCT.has(prop))  return 0.20;
+  if (EXCEPTION_25PCT.has(prop))  return 0.25;
+  return 0.30;
+}
+
+function kanalPct(kanal, prop) {
+  const k = (kanal || '').toLowerCase();
+  if (k.includes('airbnb'))  return 0.155;
+  if (k.includes('booking')) return AVENIJA_PROPS.has(prop) ? AVENIJA_BOOKING_PCT : 0.12;
+  return 0;
+}
+
+function calcRentlio(prop) {
+  if (RENTLIO_ZERO.has(prop)) return 0;
+  if (ARMIN_PROPS.has(prop))  return 0;         // grupni red posebno
+  if (LOFT_PROPS.has(prop))   return LOFT_RENTLIO_BAM;
+  return DEFAULT_RENTLIO;
+}
+
+function propGroup(prop) {
+  if (ARMIN_PROPS.has(prop))    return 'Armin';
+  if (BENTBASA_PROPS.has(prop)) return 'Bentbaša';
+  if (VRACA_PROPS.has(prop))    return 'Vraca';
+  return 'Individualni';
+}
+
+// ── Fiksni troškovi ────────────────────────────────────────────────
+const FIXED_COSTS = [
+  { desc: "Plata Field agent",         amount: 1600 },
+  { desc: "Plata Radnica na čišćenju", amount: 1300 },
+  { desc: "Računovodstvo",             amount: 200  },
+  { desc: "Poslovni prostor",          amount: 300  },
+];
+const FIXED_TOTAL = FIXED_COSTS.reduce((s, c) => s + c.amount, 0); // 3400
+
+// ── Kategorije ─────────────────────────────────────────────────────
+const CAT_COLORS = {
+  "Osoblje":             "#3498db",
+  "Marketing":           "#e67e22",
+  "Održavanje":          "#e74c3c",
+  "Softver / Pretplate": "#9b59b6",
+  "Komunalije":          "#f39c12",
+  "Putni troškovi":      "#34495e",
+  "Ostalo":              "#95a5a6",
+};
+
+// ── State ──────────────────────────────────────────────────────────
+const MONTHS = ["Januar","Februar","Mart","April","Maj","Juni",
+                "Juli","August","Septembar","Oktobar","Novembar","Decembar"];
+let curM = new Date().getMonth() + 1;
+let curY = new Date().getFullYear();
+
+// Populate month <select>
+const monthSel = document.getElementById('monthSel');
+MONTHS.forEach((m, i) => {
+  const o = document.createElement('option');
+  o.value = i + 1; o.textContent = m;
+  monthSel.appendChild(o);
+});
+
+function onMonthChange(m) { curM = m; render(); }
+function changeYear(d)    { curY += d; render(); }
+
+// ── Storage ────────────────────────────────────────────────────────
+const sk  = (t,m,y) => `srm_${t}_${y}_${String(m).padStart(2,'0')}`;
+const getInc  = (m,y) => { const k=sk('inc',m,y); return SRM_EMBEDDED[k] || JSON.parse(localStorage.getItem(k)||'null'); };
+const setInc  = (m,y,v) => localStorage.setItem(sk('inc',m,y), JSON.stringify(v));
+const getExps = (m,y) => JSON.parse(localStorage.getItem(sk('exp',m,y)) || '[]');
+const setExps = (m,y,v) => localStorage.setItem(sk('exp',m,y), JSON.stringify(v));
+
+// ── Format ─────────────────────────────────────────────────────────
+const fmtBAM = v => v.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2}) + ' BAM';
+const fmtN   = v => v.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2});
+
+// ── CSV import ─────────────────────────────────────────────────────
+function importCSV(input) {
+  const file = input.files[0];
+  if (!file) return;
+
+  // Detect month/year from filename
+  const match = file.name.match(/(\d{2})(\d{4})/);
+  const fM = match ? +match[1] : null;
+  const fY = match ? +match[2] : null;
+
+  const reader = new FileReader();
+  reader.onload = e => {
+    const text = e.target.result.replace(/^\uFEFF/, '');
+    const result = processCSV(text, curM, curY);
+    setInc(curM, curY, result);
+    renderIncome(); updateKPIs(); updateCharts();
+
+    if (fM && fY && (fM !== curM || fY !== curY)) {
+      alert(`Napomena: CSV je za ${MONTHS[fM-1]} ${fY},\nali prikazuješ ${MONTHS[curM-1]} ${curY}.\nPromijeni mjesec u headeru ako treba.`);
+    }
+    input.value = '';
+  };
+  reader.readAsText(file, 'utf-8');
+}
+
+function processCSV(text, month, year) {
+  // Detect separator
+  const first = text.split('\n').slice(0,3).join('');
+  const sep = (first.match(/;/g)||[]).length >= (first.match(/,/g)||[]).length ? ';' : ',';
+
+  const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
+  if (lines.length < 2) return [];
+
+  const headers = lines[0].split(sep).map(h => h.replace(/"/g,'').trim());
+  const col = name => headers.indexOf(name);
+
+  const cell = (cells, name) => {
+    const i = col(name);
+    return i >= 0 ? (cells[i] || '').replace(/"/g,'').trim() : '';
+  };
+
+  const parseEuro = val => parseFloat((val||'').trim().replace(/\./g,'').replace(',','.')) || 0;
+
+  const parseDate = s => {
+    const parts = (s||'').trim().split(' ')[0].split('.');
+    if (parts.length === 3) { const [d,m,y] = parts.map(Number); return {d,m,y}; }
+    return null;
+  };
+
+  const byProp = {};
+  let hasArmin = false;
+
+  for (let i = 1; i < lines.length; i++) {
+    const cells = lines[i].split(sep);
+    if (cell(cells,'Status rezervacije') !== 'Potvrđena') continue;
+
+    const dolazak = parseDate(cell(cells,'Datum dolaska'));
+    if (!dolazak || dolazak.m !== month || dolazak.y !== year) continue;
+
+    const cijena  = parseEuro(cell(cells,'Cijena po noćenju'));
+    if (cijena <= 1.0) continue;
+
+    const prop    = cell(cells,'Smještajna jedinica');
+    const kanal   = cell(cells,'Prodajni kanal');
+    const nocenja = parseInt(cell(cells,'Ukupno noćenja')) || 0;
+
+    const K = cijena * nocenja;
+    const M = K * kanalPct(kanal, prop);
+    const N = K - M;
+    const agBAM = N * agencyPct(prop) * EUR_BAM;
+
+    byProp[prop] = (byProp[prop] || 0) + agBAM;
+    if (ARMIN_PROPS.has(prop)) hasArmin = true;
+  }
+
+  const result = Object.entries(byProp)
+    .sort(([a],[b]) => a.localeCompare(b))
+    .map(([prop, agency]) => {
+      const rentlio = calcRentlio(prop);
+      return { prop, agency, rentlio, total: agency + rentlio };
+    });
+
+  if (hasArmin) {
+    result.push({ prop: '_armin_rentlio', agency: 0, rentlio: ARMIN_RENTLIO_BAM, total: ARMIN_RENTLIO_BAM });
+  }
+
+  return result;
+}
+
+// ── Income table ───────────────────────────────────────────────────
+function renderIncome() {
+  const data = getInc(curM, curY);
+  const tbody = document.getElementById('incBody');
+  tbody.innerHTML = '';
+  let t1 = 0, t2 = 0, t3 = 0;
+
+  if (!data || !data.length) {
+    tbody.innerHTML = `<tr><td colspan="5" class="empty">
+      Nema podataka za <strong>${MONTHS[curM-1]} ${curY}</strong>.<br>
+      Klikni <strong>↑ Uvezi iz CSV</strong> da učitaš Rentlio izvoz za ovaj mjesec.
+    </td></tr>`;
+    ['incT1','incT2','incT3'].forEach(id => document.getElementById(id).textContent = '0,00');
+    return 0;
+  }
+
+  data.forEach(row => {
+    const tr = document.createElement('tr');
+    if (row.prop === '_armin_rentlio') {
+      tr.className = 'muted-row';
+      tr.innerHTML = `
+        <td>↳ Armin apartmani — Rentlio naknada (fiksno)</td>
+        <td></td><td class="num">—</td>
+        <td class="num">${fmtN(row.rentlio)}</td>
+        <td class="num">${fmtN(row.total)}</td>`;
+    } else {
+      tr.innerHTML = `
+        <td>${row.prop}</td>
+        <td><span class="grp-lbl">${propGroup(row.prop)}</span></td>
+        <td class="num">${fmtN(row.agency)}</td>
+        <td class="num">${row.rentlio > 0 ? fmtN(row.rentlio) : '—'}</td>
+        <td class="num"><strong>${fmtN(row.total)}</strong></td>`;
+    }
+    tbody.appendChild(tr);
+    t1 += row.agency; t2 += row.rentlio; t3 += row.total;
+  });
+
+  document.getElementById('incT1').textContent = fmtN(t1);
+  document.getElementById('incT2').textContent = fmtN(t2);
+  document.getElementById('incT3').textContent = fmtN(t3);
+  return t3;
+}
+
+// ── Fixed costs table ──────────────────────────────────────────────
+function renderFixed() {
+  const tbody = document.getElementById('fixedBody');
+  tbody.innerHTML = '';
+  FIXED_COSTS.forEach(c => {
+    const tr = document.createElement('tr');
+    tr.className = 'fixed-row';
+    tr.innerHTML = `<td>${c.desc}</td><td class="num">${fmtN(c.amount)}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+// ── Variable expenses ──────────────────────────────────────────────
+function addExpense() {
+  const date   = document.getElementById('fDate').value;
+  const cat    = document.getElementById('fCat').value;
+  const desc   = document.getElementById('fDesc').value.trim();
+  const amount = parseFloat(document.getElementById('fAmt').value);
+
+  const dEl = document.getElementById('fDesc'), aEl = document.getElementById('fAmt');
+  dEl.style.borderColor = desc   ? '' : 'var(--red)';
+  aEl.style.borderColor = amount > 0 ? '' : 'var(--red)';
+  if (!date || !desc || !(amount > 0)) return;
+  dEl.style.borderColor = ''; aEl.style.borderColor = '';
+
+  const exps = getExps(curM, curY);
+  exps.push({ id: Date.now(), date, cat, desc, amount });
+  setExps(curM, curY, exps);
+  dEl.value = ''; aEl.value = '';
+  renderExpenses(); updateKPIs(); updateCharts();
+}
+
+function deleteExpense(id) {
+  setExps(curM, curY, getExps(curM, curY).filter(e => e.id !== id));
+  renderExpenses(); updateKPIs(); updateCharts();
+}
+
+function renderExpenses() {
+  const exps = getExps(curM, curY);
+  const tbody = document.getElementById('varBody');
+  tbody.innerHTML = '';
+  let total = 0;
+
+  if (!exps.length) {
+    tbody.innerHTML = '<tr><td colspan="5" class="empty">Nema varijabilnih troškova za ovaj mjesec.</td></tr>';
+  } else {
+    [...exps].sort((a,b) => a.date.localeCompare(b.date)).forEach(e => {
+      total += e.amount;
+      const c = CAT_COLORS[e.cat] || '#95a5a6';
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${e.date.split('-').reverse().join('.')}</td>
+        <td><span class="badge" style="background:${c}22;color:${c}">${e.cat}</span></td>
+        <td>${e.desc}</td>
+        <td class="num">${fmtN(e.amount)}</td>
+        <td style="text-align:center"><button class="del-btn" onclick="deleteExpense(${e.id})">✕</button></td>`;
+      tbody.appendChild(tr);
+    });
+  }
+  document.getElementById('varTotal').textContent = fmtN(total);
+  return total;
+}
+
+// ── KPIs ───────────────────────────────────────────────────────────
+function updateKPIs() {
+  const incData = getInc(curM, curY) || [];
+  const inc = incData.reduce((s, r) => s + r.total, 0);
+  const varE = getExps(curM, curY).reduce((s, e) => s + e.amount, 0);
+  const totE = FIXED_TOTAL + varE;
+  const net  = inc - totE;
+
+  document.getElementById('kpiInc').textContent = inc > 0 ? fmtBAM(inc) : '—';
+  document.getElementById('kpiFix').textContent = fmtBAM(FIXED_TOTAL);
+  document.getElementById('kpiVar').textContent = fmtBAM(varE);
+  document.getElementById('kpiTot').textContent = fmtBAM(totE);
+
+  const netEl = document.getElementById('kpiNet');
+  netEl.textContent   = inc > 0 ? fmtBAM(net) : '—';
+  netEl.style.color   = net >= 0 ? 'var(--green)' : 'var(--red)';
+}
+
+// ── Charts ─────────────────────────────────────────────────────────
+let barInst = null, pieInst = null;
+function updateCharts() { updateBar(); updatePie(); }
+
+function updateBar() {
+  const labels = MONTHS.map(m => m.substring(0, 3));
+  const inc = [], varArr = [], netArr = [];
+
+  for (let m = 1; m <= 12; m++) {
+    const d = getInc(m, curY) || [];
+    const i = d.reduce((s, r) => s + r.total, 0);
+    const v = getExps(m, curY).reduce((s, e) => s + e.amount, 0);
+    inc.push(i); varArr.push(v); netArr.push(i - FIXED_TOTAL - v);
+  }
+
+  if (barInst) barInst.destroy();
+  barInst = new Chart(document.getElementById('barChart'), {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        { label: 'Prihod', data: inc, backgroundColor: '#ff670055', borderColor: '#ff6700', borderWidth: 2, borderRadius: 4 },
+        { label: `Fiksni (${fmtN(FIXED_TOTAL)} BAM)`, data: Array(12).fill(FIXED_TOTAL), type: 'line', borderColor: '#95a5a6', backgroundColor: 'transparent', borderWidth: 1.5, borderDash: [6,3], pointRadius: 0, tension: 0 },
+        { label: 'Varijabilni', data: varArr, backgroundColor: '#e74c3c55', borderColor: '#e74c3c', borderWidth: 2, borderRadius: 4 },
+        { label: 'Neto', data: netArr, type: 'line', borderColor: '#27ae60', backgroundColor: 'transparent', borderWidth: 2.5, tension: 0.35, pointBackgroundColor: '#27ae60', pointRadius: 4 },
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { size: 11 }, boxWidth: 14, padding: 12 } },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: ${fmtN(ctx.raw)} BAM` } }
+      },
+      scales: {
+        y: { beginAtZero: true, ticks: { callback: v => fmtN(v), font: { size: 11 } }, grid: { color: '#eef2f8' } },
+        x: { ticks: { font: { size: 11 } }, grid: { display: false } }
+      }
+    }
+  });
+}
+
+function updatePie() {
+  const exps = getExps(curM, curY);
+  const byCat = {};
+  exps.forEach(e => { byCat[e.cat] = (byCat[e.cat] || 0) + e.amount; });
+  const labels = Object.keys(byCat);
+  const values = Object.values(byCat);
+  const colors = labels.map(l => CAT_COLORS[l] || '#95a5a6');
+
+  if (pieInst) pieInst.destroy();
+
+  if (!labels.length) {
+    pieInst = new Chart(document.getElementById('pieChart'), {
+      type: 'doughnut',
+      data: { labels: ['Nema troškova'], datasets: [{ data: [1], backgroundColor: ['#eef2f8'], borderWidth: 0 }] },
+      options: { plugins: { legend: { display: false }, tooltip: { enabled: false } }, cutout: '65%' }
+    });
+    return;
+  }
+
+  pieInst = new Chart(document.getElementById('pieChart'), {
+    type: 'doughnut',
+    data: { labels, datasets: [{ data: values, backgroundColor: colors, borderWidth: 2, borderColor: '#fff' }] },
+    options: {
+      responsive: true, cutout: '60%',
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { size: 11 }, boxWidth: 12, padding: 10 } },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${fmtN(ctx.raw)} BAM` } }
+      }
+    }
+  });
+}
+
+// ── Render ─────────────────────────────────────────────────────────
+function render() {
+  monthSel.value = curM;
+  document.getElementById('yearLbl').textContent     = curY;
+  document.getElementById('varMonthLbl').textContent = `${MONTHS[curM-1]} ${curY}`;
+  document.getElementById('barYear').textContent     = curY;
+
+  const dflt = `${curY}-${String(curM).padStart(2,'0')}-01`;
+  const di = document.getElementById('fDate');
+  if (di.getAttribute('data-m') !== `${curM}-${curY}`) {
+    di.value = dflt; di.setAttribute('data-m', `${curM}-${curY}`);
+  }
+
+  renderFixed();
+  renderIncome();
+  renderExpenses();
+  updateKPIs();
+  updateCharts();
+}
+
+// ── Init ───────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', render);
+</script>
+</body>
+</html>
