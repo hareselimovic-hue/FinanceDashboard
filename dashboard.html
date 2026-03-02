@@ -132,10 +132,43 @@ tr:hover td { background: #fafbfd; }
 .chart-wrap { padding: 14px 16px 8px; }
 
 /* ── Responsive ── */
-@media (max-width: 1100px) { .kpi-row { grid-template-columns: repeat(3,1fr); } }
-@media (max-width: 860px)  {
+@media (max-width: 1100px) {
+  .kpi-row { grid-template-columns: repeat(3,1fr); }
+}
+@media (max-width: 860px) {
   .kpi-row { grid-template-columns: repeat(2,1fr); }
   .row-main, .row-costs, .row-charts { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  /* Header */
+  header { padding: 10px 14px; flex-wrap: wrap; gap: 8px; }
+  header .sub { display: none; }
+  .month-nav { gap: 6px; width: 100%; justify-content: flex-end; }
+  .month-nav select { font-size: 12px; padding: 4px 6px; }
+
+  /* Main */
+  main { padding: 12px; }
+
+  /* KPI */
+  .kpi { padding: 11px 12px; }
+  .kpi .val { font-size: 16px; }
+  .kpi .label { font-size: 9px; }
+
+  /* Tabele — horizontal scroll */
+  .card > div, .card-body { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table { min-width: 460px; font-size: 12px; }
+  th, td { padding: 6px 8px; }
+
+  /* Card header */
+  .card-hd { flex-wrap: wrap; gap: 6px; }
+  .card-hd .hint { display: none; }
+
+  /* Chart */
+  .chart-wrap { padding: 10px 10px 6px; }
+}
+@media (max-width: 400px) {
+  .kpi .val { font-size: 14px; }
+  .kpi-row { gap: 8px; }
 }
 </style>
 <!-- SRM_DATA_START -->
