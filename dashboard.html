@@ -222,8 +222,57 @@ tr:hover td { background: #fafbfd; }
     </div>
   </div>
 
+  <!-- Godišnji pregled overview -->
+  <div id="annualOverview" style="display:none; margin-bottom:20px;">
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+      <div class="card">
+        <div class="card-hd">Pregled po mjesecima</div>
+        <div style="padding:0">
+          <table>
+            <thead>
+              <tr>
+                <th>Mjesec</th>
+                <th class="num">Prihod agencije</th>
+                <th class="num">Varijabilni</th>
+                <th class="num">Fiksni</th>
+                <th class="num">Neto</th>
+              </tr>
+            </thead>
+            <tbody id="annMonthBody"></tbody>
+            <tfoot>
+              <tr class="tfoot-row">
+                <td>UKUPNO</td>
+                <td class="num" id="annM1"></td>
+                <td class="num" id="annM2"></td>
+                <td class="num" id="annM3"></td>
+                <td class="num" id="annM4"></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-hd">Prihodi po grupama</div>
+        <div style="padding:0">
+          <table>
+            <thead>
+              <tr>
+                <th>Grupa</th>
+                <th class="num">Agencija (BAM)</th>
+                <th class="num">Rentlio (BAM)</th>
+                <th class="num">Ukupno agenciji</th>
+                <th class="num">Isplata vlasnicima</th>
+              </tr>
+            </thead>
+            <tbody id="annGroupBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Income table + Var expense form -->
-  <div class="row-main">
+  <div class="row-main" id="rowMain">
 
     <div class="card" id="incCard">
       <div class="card-hd">
@@ -857,6 +906,70 @@ function updatePie() {
   });
 }
 
+// ── Annual overview ────────────────────────────────────────────────
+function renderAnnual() {
+  const months = getActiveMonths(curY);
+  const tbody1 = document.getElementById('annMonthBody');
+  tbody1.innerHTML = '';
+  let tM1 = 0, tM2 = 0, tM3 = 0, tM4 = 0;
+
+  months.forEach(m => {
+    const inc  = (getInc(m, curY) || []).reduce((s, r) => s + r.total, 0);
+    const varE = getExps(m, curY).reduce((s, e) => s + e.amount, 0);
+    const net  = inc - FIXED_TOTAL - varE;
+    tM1 += inc; tM2 += varE; tM3 += FIXED_TOTAL; tM4 += net;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${MONTHS[m-1]}</td>
+      <td class="num">${fmtN(inc)}</td>
+      <td class="num">${fmtN(varE)}</td>
+      <td class="num">${fmtN(FIXED_TOTAL)}</td>
+      <td class="num" style="color:${net >= 0 ? 'var(--green)' : 'var(--red)'}"><strong>${fmtN(net)}</strong></td>`;
+    tbody1.appendChild(tr);
+  });
+
+  document.getElementById('annM1').textContent = fmtN(tM1);
+  document.getElementById('annM2').textContent = fmtN(tM2);
+  document.getElementById('annM3').textContent = fmtN(tM3);
+  const annM4 = document.getElementById('annM4');
+  annM4.textContent = fmtN(tM4);
+  annM4.style.color = tM4 >= 0 ? 'var(--green)' : 'var(--red)';
+
+  const allInc = getIncTotal(curY);
+  const groupOrder = ['Armin', 'Bentbaša', 'Vraca', 'Individualni'];
+  const groups = {};
+  allInc.forEach(row => {
+    if (row.prop === '_armin_rentlio') {
+      if (groups['Armin']) { groups['Armin'].rentlio += row.rentlio||0; groups['Armin'].total += row.total||0; groups['Armin'].owner += row.owner||0; }
+      return;
+    }
+    if (row.prop === '_bentbasa_rentlio') {
+      if (groups['Bentbaša']) { groups['Bentbaša'].rentlio += row.rentlio||0; groups['Bentbaša'].total += row.total||0; groups['Bentbaša'].owner += row.owner||0; }
+      return;
+    }
+    const g = propGroup(row.prop);
+    if (!groups[g]) groups[g] = { agency: 0, rentlio: 0, total: 0, owner: 0 };
+    groups[g].agency  += row.agency  || 0;
+    groups[g].rentlio += row.rentlio || 0;
+    groups[g].total   += row.total   || 0;
+    groups[g].owner   += row.owner   || 0;
+  });
+
+  const tbody2 = document.getElementById('annGroupBody');
+  tbody2.innerHTML = '';
+  groupOrder.filter(g => groups[g]).forEach(g => {
+    const row = groups[g];
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><strong>${g}</strong></td>
+      <td class="num">${fmtN(row.agency)}</td>
+      <td class="num">${row.rentlio > 0 ? fmtN(row.rentlio) : '—'}</td>
+      <td class="num"><strong>${fmtN(row.total)}</strong></td>
+      <td class="num">${fmtN(row.owner)}</td>`;
+    tbody2.appendChild(tr);
+  });
+}
+
 // ── Render ─────────────────────────────────────────────────────────
 function render() {
   monthSel.value = curM;
@@ -864,7 +977,11 @@ function render() {
   document.getElementById('varMonthLbl').textContent = curM === 0 ? `Godišnji pregled ${curY}` : `${MONTHS[curM-1]} ${curY}`;
   document.getElementById('barYear').textContent     = curY;
 
-  if (curM !== 0) {
+  const isAnn = curM === 0;
+  document.getElementById('annualOverview').style.display = isAnn ? '' : 'none';
+  document.getElementById('rowMain').style.display        = isAnn ? 'none' : '';
+
+  if (!isAnn) {
     const dflt = `${curY}-${String(curM).padStart(2,'0')}-01`;
     const di = document.getElementById('fDate');
     if (di.getAttribute('data-m') !== `${curM}-${curY}`) {
@@ -872,7 +989,7 @@ function render() {
     }
   }
 
-  document.getElementById('incCard').style.display = curM === 0 ? 'none' : '';
+  if (isAnn) renderAnnual();
   renderFixed();
   renderIncome();
   renderExpenses();
