@@ -322,7 +322,7 @@ tr:hover td { background: #fafbfd; }
   </div>
 
   <!-- Fixed + Variable costs lists -->
-  <div class="row-costs">
+  <div class="row-costs" id="rowCosts">
 
     <div class="card">
       <div class="card-hd">Fiksni troškovi <span class="hint">Svaki mjesec · nije potrebno unositi</span></div>
@@ -928,6 +928,7 @@ function render() {
   const isAnn = curM === 0;
   document.getElementById('annualOverview').style.display = isAnn ? '' : 'none';
   document.getElementById('rowMain').style.display        = isAnn ? 'none' : '';
+  document.getElementById('rowCosts').style.display       = isAnn ? 'none' : '';
 
   if (!isAnn) {
     const dflt = `${curY}-${String(curM).padStart(2,'0')}-01`;
