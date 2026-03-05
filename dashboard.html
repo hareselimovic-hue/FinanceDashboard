@@ -225,7 +225,7 @@ tr:hover td { background: #fafbfd; }
   <!-- Income table + Var expense form -->
   <div class="row-main">
 
-    <div class="card">
+    <div class="card" id="incCard">
       <div class="card-hd">
         Prihodi po nekretnini
         <span class="hint">Uvezi Rentlio CSV da popuniš automatski</span>
@@ -872,6 +872,7 @@ function render() {
     }
   }
 
+  document.getElementById('incCard').style.display = curM === 0 ? 'none' : '';
   renderFixed();
   renderIncome();
   renderExpenses();
