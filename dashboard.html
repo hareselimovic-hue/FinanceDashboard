@@ -621,36 +621,71 @@ function renderIncome() {
     return 0;
   }
 
-  data.forEach(row => {
-    const tr = document.createElement('tr');
-    if (row.prop === '_armin_rentlio') {
-      tr.className = 'muted-row';
+  if (curM === 0) {
+    // Godišnji pregled — grupirani prikaz
+    const groupOrder = ['Armin', 'Bentbaša', 'Vraca', 'Individualni'];
+    const groups = {};
+    data.forEach(row => {
+      if (row.prop === '_armin_rentlio') {
+        if (groups['Armin']) { groups['Armin'].rentlio += row.rentlio||0; groups['Armin'].total += row.total||0; groups['Armin'].owner += row.owner||0; }
+        return;
+      }
+      if (row.prop === '_bentbasa_rentlio') {
+        if (groups['Bentbaša']) { groups['Bentbaša'].rentlio += row.rentlio||0; groups['Bentbaša'].total += row.total||0; groups['Bentbaša'].owner += row.owner||0; }
+        return;
+      }
+      const g = propGroup(row.prop);
+      if (!groups[g]) groups[g] = { agency: 0, rentlio: 0, total: 0, owner: 0 };
+      groups[g].agency  += row.agency  || 0;
+      groups[g].rentlio += row.rentlio || 0;
+      groups[g].total   += row.total   || 0;
+      groups[g].owner   += row.owner   || 0;
+    });
+    groupOrder.filter(g => groups[g]).forEach(g => {
+      const row = groups[g];
+      const tr = document.createElement('tr');
       tr.innerHTML = `
-        <td>↳ Armin apartmani — Rentlio naknada (fiksno)</td>
-        <td></td><td class="num">—</td>
-        <td class="num">${fmtN(row.rentlio)}</td>
-        <td class="num">${fmtN(row.total)}</td>
-        <td class="num" style="color:var(--red)">${fmtN(row.owner ?? -row.rentlio)}</td>`;
-    } else if (row.prop === '_bentbasa_rentlio') {
-      tr.className = 'muted-row';
-      tr.innerHTML = `
-        <td>↳ Bentbaša apartmani — Rentlio naknada (fiksno)</td>
-        <td></td><td class="num">—</td>
-        <td class="num">${fmtN(row.rentlio)}</td>
-        <td class="num">${fmtN(row.total)}</td>
-        <td class="num" style="color:var(--red)">${fmtN(row.owner ?? -row.rentlio)}</td>`;
-    } else {
-      tr.innerHTML = `
-        <td>${row.prop}</td>
-        <td><span class="grp-lbl">${propGroup(row.prop)}</span></td>
+        <td colspan="2"><strong>${g}</strong></td>
         <td class="num">${fmtN(row.agency)}</td>
         <td class="num">${row.rentlio > 0 ? fmtN(row.rentlio) : '—'}</td>
         <td class="num"><strong>${fmtN(row.total)}</strong></td>
-        <td class="num">${row.owner != null ? fmtN(row.owner) : '—'}</td>`;
-    }
-    tbody.appendChild(tr);
-    t1 += row.agency; t2 += row.rentlio; t3 += row.total; t4 += (row.owner || 0);
-  });
+        <td class="num">${fmtN(row.owner)}</td>`;
+      tbody.appendChild(tr);
+      t1 += row.agency; t2 += row.rentlio; t3 += row.total; t4 += row.owner;
+    });
+  } else {
+    // Mjesečni prikaz — po nekretnini
+    data.forEach(row => {
+      const tr = document.createElement('tr');
+      if (row.prop === '_armin_rentlio') {
+        tr.className = 'muted-row';
+        tr.innerHTML = `
+          <td>↳ Armin apartmani — Rentlio naknada (fiksno)</td>
+          <td></td><td class="num">—</td>
+          <td class="num">${fmtN(row.rentlio)}</td>
+          <td class="num">${fmtN(row.total)}</td>
+          <td class="num" style="color:var(--red)">${fmtN(row.owner ?? -row.rentlio)}</td>`;
+      } else if (row.prop === '_bentbasa_rentlio') {
+        tr.className = 'muted-row';
+        tr.innerHTML = `
+          <td>↳ Bentbaša apartmani — Rentlio naknada (fiksno)</td>
+          <td></td><td class="num">—</td>
+          <td class="num">${fmtN(row.rentlio)}</td>
+          <td class="num">${fmtN(row.total)}</td>
+          <td class="num" style="color:var(--red)">${fmtN(row.owner ?? -row.rentlio)}</td>`;
+      } else {
+        tr.innerHTML = `
+          <td>${row.prop}</td>
+          <td><span class="grp-lbl">${propGroup(row.prop)}</span></td>
+          <td class="num">${fmtN(row.agency)}</td>
+          <td class="num">${row.rentlio > 0 ? fmtN(row.rentlio) : '—'}</td>
+          <td class="num"><strong>${fmtN(row.total)}</strong></td>
+          <td class="num">${row.owner != null ? fmtN(row.owner) : '—'}</td>`;
+      }
+      tbody.appendChild(tr);
+      t1 += row.agency; t2 += row.rentlio; t3 += row.total; t4 += (row.owner || 0);
+    });
+  }
 
   document.getElementById('incT1').textContent = fmtN(t1);
   document.getElementById('incT2').textContent = fmtN(t2);
