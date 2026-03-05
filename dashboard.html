@@ -368,7 +368,7 @@ tr:hover td { background: #fafbfd; }
   </div>
 
   <!-- Charts -->
-  <div class="row-charts">
+  <div class="row-charts" id="rowCharts">
     <div class="card">
       <div class="card-hd">Prihod vs Troškovi — svih 12 mjeseci <span class="hint" id="barYear"></span></div>
       <div class="chart-wrap"><canvas id="barChart"></canvas></div>
@@ -929,6 +929,7 @@ function render() {
   document.getElementById('annualOverview').style.display = isAnn ? '' : 'none';
   document.getElementById('rowMain').style.display        = isAnn ? 'none' : '';
   document.getElementById('rowCosts').style.display       = isAnn ? 'none' : '';
+  document.getElementById('rowCharts').style.display      = isAnn ? 'none' : '';
 
   if (!isAnn) {
     const dflt = `${curY}-${String(curM).padStart(2,'0')}-01`;
