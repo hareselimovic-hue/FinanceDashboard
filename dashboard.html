@@ -367,6 +367,59 @@ tr:hover td { background: #fafbfd; }
 
   </div>
 
+  <!-- Project Busovača -->
+  <div style="margin-bottom:20px;">
+    <div class="card">
+      <div class="card-hd" style="background:#5d4037;">
+        🏗️ Project Busovača
+        <span class="hint">Troškovi projekta — neovisno od mjesečnih troškova agencije</span>
+        <span id="pbTotalHd" style="font-weight:800;font-size:13px;white-space:nowrap;">0,00 BAM</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 280px;gap:0;">
+
+        <!-- Tabela -->
+        <div style="border-right:1px solid var(--border);padding:0;">
+          <table>
+            <thead>
+              <tr>
+                <th>Naziv troška</th>
+                <th>Mjesec</th>
+                <th class="num">Iznos (BAM)</th>
+                <th style="width:40px;text-align:center">—</th>
+              </tr>
+            </thead>
+            <tbody id="pbBody"></tbody>
+            <tfoot>
+              <tr class="tfoot-row">
+                <td colspan="2">UKUPNO PROJECT BUSOVAČA</td>
+                <td class="num" id="pbTotal">0,00</td>
+                <td></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+        <!-- Forma -->
+        <div class="card-body" style="border-left:none;">
+          <div class="form-group">
+            <label>Naziv troška</label>
+            <input type="text" id="pbDesc" placeholder="npr. Materijal — beton">
+          </div>
+          <div class="form-group">
+            <label>Mjesec</label>
+            <select id="pbMonth"></select>
+          </div>
+          <div class="form-group">
+            <label>Iznos (BAM)</label>
+            <input type="number" id="pbAmt" placeholder="0.00" step="0.01" min="0">
+          </div>
+          <button class="btn" style="background:#5d4037;" onmouseover="this.style.background='#4e342e'" onmouseout="this.style.background='#5d4037'" onclick="addPBExpense()">+ Dodaj trošak projekta</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
   <!-- Charts -->
   <div class="row-charts" id="rowCharts">
     <div class="card">
@@ -964,8 +1017,92 @@ function exportHTML() {
   a.click();
 }
 
+// ── Project Busovača ───────────────────────────────────────────────
+const PB_KEY = 'srm_project_busovaca';
+
+function getPBExps() {
+  return JSON.parse(localStorage.getItem(PB_KEY) || '[]');
+}
+function setPBExps(v) {
+  localStorage.setItem(PB_KEY, JSON.stringify(v));
+}
+
+// Populate pbMonth select
+(function() {
+  const sel = document.getElementById('pbMonth');
+  MONTHS.forEach((m, i) => {
+    const o = document.createElement('option');
+    o.value = i + 1; o.textContent = m + ' ' + new Date().getFullYear();
+    sel.appendChild(o);
+  });
+  // Add previous year months too
+  const py = new Date().getFullYear() - 1;
+  MONTHS.forEach((m, i) => {
+    const o = document.createElement('option');
+    o.value = -(i + 1); o.textContent = m + ' ' + py;
+    sel.appendChild(o);
+  });
+  sel.value = new Date().getMonth() + 1;
+})();
+
+function addPBExpense() {
+  const desc   = document.getElementById('pbDesc').value.trim();
+  const monthV = parseInt(document.getElementById('pbMonth').value);
+  const amount = parseFloat(document.getElementById('pbAmt').value);
+
+  const dEl = document.getElementById('pbDesc'), aEl = document.getElementById('pbAmt');
+  dEl.style.borderColor = desc     ? '' : 'var(--red)';
+  aEl.style.borderColor = amount > 0 ? '' : 'var(--red)';
+  if (!desc || !(amount > 0)) return;
+  dEl.style.borderColor = ''; aEl.style.borderColor = '';
+
+  const isNeg  = monthV < 0;
+  const mIdx   = Math.abs(monthV);
+  const year   = isNeg ? new Date().getFullYear() - 1 : new Date().getFullYear();
+  const sel    = document.getElementById('pbMonth');
+  const monthLabel = sel.options[sel.selectedIndex].textContent;
+
+  const exps = getPBExps();
+  exps.push({ id: Date.now(), monthLabel, mIdx, year, desc, amount });
+  setPBExps(exps);
+  dEl.value = ''; aEl.value = '';
+  renderPB();
+}
+
+function deletePBExpense(id) {
+  setPBExps(getPBExps().filter(e => e.id !== id));
+  renderPB();
+}
+
+function renderPB() {
+  const exps = getPBExps();
+  const tbody = document.getElementById('pbBody');
+  tbody.innerHTML = '';
+  let total = 0;
+
+  if (!exps.length) {
+    tbody.innerHTML = `<tr><td colspan="4" class="empty">Nema troškova projekta. Dodaj prvi trošak →</td></tr>`;
+  } else {
+    // Sort by year desc, month desc
+    [...exps].sort((a, b) => b.year - a.year || b.mIdx - a.mIdx).forEach(e => {
+      total += e.amount;
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${e.desc}</td>
+        <td><span class="badge" style="background:#5d403722;color:#5d4037">${e.monthLabel}</span></td>
+        <td class="num">${fmtN(e.amount)}</td>
+        <td style="text-align:center"><button class="del-btn" onclick="deletePBExpense(${e.id})">✕</button></td>`;
+      tbody.appendChild(tr);
+    });
+  }
+
+  const fmt = fmtN(total);
+  document.getElementById('pbTotal').textContent    = fmt + ' BAM';
+  document.getElementById('pbTotalHd').textContent  = fmt + ' BAM';
+}
+
 // ── Init ───────────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', render);
+document.addEventListener('DOMContentLoaded', () => { render(); renderPB(); });
 </script>
 </body>
 </html>
