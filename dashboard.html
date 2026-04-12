@@ -996,6 +996,7 @@ function render() {
   renderFixed();
   renderIncome();
   renderExpenses();
+  renderPB();
   updateKPIs();
   updateCharts();
 }
@@ -1075,15 +1076,22 @@ function deletePBExpense(id) {
 }
 
 function renderPB() {
-  const exps = getPBExps();
+  const all   = getPBExps();
+  const isAnn = curM === 0;
+
+  // Godišnji pregled → svi za curY; Mjesec → samo curM + curY
+  const exps = isAnn
+    ? all.filter(e => e.year === curY)
+    : all.filter(e => e.mIdx === curM && e.year === curY);
+
   const tbody = document.getElementById('pbBody');
   tbody.innerHTML = '';
   let total = 0;
 
   if (!exps.length) {
-    tbody.innerHTML = `<tr><td colspan="4" class="empty">Nema troškova projekta. Dodaj prvi trošak →</td></tr>`;
+    const lbl = isAnn ? `Godišnji pregled ${curY}` : `${MONTHS[curM-1]} ${curY}`;
+    tbody.innerHTML = `<tr><td colspan="4" class="empty">Nema troškova projekta za <strong>${lbl}</strong>.</td></tr>`;
   } else {
-    // Sort by year desc, month desc
     [...exps].sort((a, b) => b.year - a.year || b.mIdx - a.mIdx).forEach(e => {
       total += e.amount;
       const tr = document.createElement('tr');
@@ -1097,12 +1105,12 @@ function renderPB() {
   }
 
   const fmt = fmtN(total);
-  document.getElementById('pbTotal').textContent    = fmt + ' BAM';
-  document.getElementById('pbTotalHd').textContent  = fmt + ' BAM';
+  document.getElementById('pbTotal').textContent   = fmt + ' BAM';
+  document.getElementById('pbTotalHd').textContent = fmt + ' BAM';
 }
 
 // ── Init ───────────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => { render(); renderPB(); });
+document.addEventListener('DOMContentLoaded', render);
 </script>
 </body>
 </html>
