@@ -367,6 +367,38 @@ tr:hover td { background: #fafbfd; }
 
   </div>
 
+  <!-- Prihod po nekretnini — godišnji ranking -->
+  <div style="margin-bottom:20px;">
+    <div class="card">
+      <div class="card-hd">
+        Prihod po nekretnini — <span id="aptsRankYear">2026</span>
+        <span class="hint">Kumulativno za sve dostupne mjesece · sortirano od najvećeg</span>
+      </div>
+      <div style="padding:0">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:36px">#</th>
+              <th>Nekretnina</th>
+              <th class="num">Prihod agencije (BAM)</th>
+              <th class="num" style="width:60px">Udio</th>
+              <th style="width:180px;padding-right:16px">Vizualizacija</th>
+            </tr>
+          </thead>
+          <tbody id="aptsRankBody"></tbody>
+          <tfoot>
+            <tr class="tfoot-row">
+              <td colspan="2">UKUPNO</td>
+              <td class="num" id="aptsRankTotal">0,00</td>
+              <td class="num">100%</td>
+              <td></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+
   <!-- Project Busovača -->
   <div style="margin-bottom:20px;">
     <div class="card">
@@ -996,6 +1028,7 @@ function render() {
   renderFixed();
   renderIncome();
   renderExpenses();
+  renderAptsRanking();
   renderPB();
   updateKPIs();
   updateCharts();
@@ -1104,6 +1137,46 @@ function renderPB() {
   const fmt = fmtN(total);
   document.getElementById('pbTotal').textContent   = fmt + ' BAM';
   document.getElementById('pbTotalHd').textContent = fmt + ' BAM';
+}
+
+// ── Prihod po nekretnini — godišnji ranking ────────────────────────
+function renderAptsRanking() {
+  document.getElementById('aptsRankYear').textContent = curY;
+  const data = getIncTotal(curY)
+    .filter(r => !r.prop.startsWith('_'))
+    .sort((a, b) => b.agency - a.agency);
+
+  const total = data.reduce((s, r) => s + r.agency, 0);
+  const tbody = document.getElementById('aptsRankBody');
+  tbody.innerHTML = '';
+
+  if (!data.length) {
+    tbody.innerHTML = `<tr><td colspan="5" class="empty">Nema podataka za ${curY}.</td></tr>`;
+    document.getElementById('aptsRankTotal').textContent = '0,00';
+    return;
+  }
+
+  const max = data[0].agency;
+  data.forEach((row, i) => {
+    const pct  = total > 0 ? (row.agency / total * 100) : 0;
+    const barW = max  > 0 ? (row.agency / max  * 100) : 0;
+    const hue  = Math.round(20 + (i / Math.max(data.length - 1, 1)) * 20);
+    const barColor = i < 3 ? 'var(--accent)' : i < 8 ? '#1a4080' : 'var(--muted)';
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td style="color:var(--muted);font-size:12px;font-weight:700;text-align:right;padding-right:12px">${i+1}</td>
+      <td>${row.prop}</td>
+      <td class="num"><strong>${fmtN(row.agency)}</strong></td>
+      <td class="num" style="color:var(--muted);font-size:12px">${pct.toFixed(1)}%</td>
+      <td style="padding-right:16px">
+        <div style="background:#eef2f8;border-radius:4px;overflow:hidden;height:8px">
+          <div style="background:${barColor};height:100%;width:${barW.toFixed(1)}%;border-radius:4px"></div>
+        </div>
+      </td>`;
+    tbody.appendChild(tr);
+  });
+
+  document.getElementById('aptsRankTotal').textContent = fmtN(total);
 }
 
 // ── Init ───────────────────────────────────────────────────────────
