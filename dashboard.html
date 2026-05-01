@@ -368,7 +368,7 @@ tr:hover td { background: #fafbfd; }
   </div>
 
   <!-- Prihod po nekretnini — godišnji ranking -->
-  <div style="margin-bottom:20px;">
+  <div id="aptsRankSection" style="margin-bottom:20px;display:none;">
     <div class="card">
       <div class="card-hd">
         Prihod po nekretnini — <span id="aptsRankYear">2026</span>
@@ -1011,10 +1011,11 @@ function render() {
   document.getElementById('barYear').textContent     = curY;
 
   const isAnn = curM === 0;
-  document.getElementById('annualOverview').style.display = isAnn ? '' : 'none';
-  document.getElementById('rowMain').style.display        = isAnn ? 'none' : '';
-  document.getElementById('rowCosts').style.display       = isAnn ? 'none' : '';
-  document.getElementById('rowCharts').style.display      = isAnn ? 'none' : '';
+  document.getElementById('annualOverview').style.display  = isAnn ? '' : 'none';
+  document.getElementById('aptsRankSection').style.display = isAnn ? '' : 'none';
+  document.getElementById('rowMain').style.display         = isAnn ? 'none' : '';
+  document.getElementById('rowCosts').style.display        = isAnn ? 'none' : '';
+  document.getElementById('rowCharts').style.display       = isAnn ? 'none' : '';
 
   if (!isAnn) {
     const dflt = `${curY}-${String(curM).padStart(2,'0')}-01`;
