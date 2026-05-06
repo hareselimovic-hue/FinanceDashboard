@@ -798,7 +798,7 @@ function renderIncome() {
         if (isPaid) tr.style.background = '#f0faf4';
         const propEsc = row.prop.replace(/'/g, "\\'");
         tr.innerHTML = `
-          <td style="${isPaid ? 'color:var(--muted);text-decoration:line-through' : ''}">${row.prop}</td>
+          <td>${row.prop}</td>
           <td><span class="grp-lbl">${propGroup(row.prop)}</span></td>
           <td class="num">${fmtN(row.agency)}</td>
           <td class="num">${row.rentlio > 0 ? fmtN(row.rentlio) : '—'}</td>
