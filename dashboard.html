@@ -272,6 +272,7 @@ tr:hover td { background: #fafbfd; }
               <th class="num">Rentlio naknada (BAM)</th>
               <th class="num">Ukupno agenciji (BAM)</th>
               <th class="num">Isplata vlasniku (BAM)</th>
+              <th id="incThPaid" style="text-align:center;width:74px">Plaćeno</th>
             </tr>
           </thead>
           <tbody id="incBody"></tbody>
@@ -282,6 +283,7 @@ tr:hover td { background: #fafbfd; }
               <td class="num" id="incT2">0,00</td>
               <td class="num" id="incT3">0,00</td>
               <td class="num" id="incT4">0,00</td>
+              <td id="incTfPaid"></td>
             </tr>
           </tfoot>
         </table>
@@ -770,6 +772,7 @@ function renderIncome() {
     });
   } else {
     // Mjesečni prikaz — po nekretnini
+    const paid = getPaid(curM, curY);
     data.forEach(row => {
       const tr = document.createElement('tr');
       if (row.prop === '_armin_rentlio') {
@@ -779,7 +782,8 @@ function renderIncome() {
           <td></td><td class="num">—</td>
           <td class="num">${fmtN(row.rentlio)}</td>
           <td class="num">${fmtN(row.total)}</td>
-          <td class="num" style="color:var(--red)">${fmtN(row.owner ?? -row.rentlio)}</td>`;
+          <td class="num" style="color:var(--red)">${fmtN(row.owner ?? -row.rentlio)}</td>
+          <td></td>`;
       } else if (row.prop === '_bentbasa_rentlio') {
         tr.className = 'muted-row';
         tr.innerHTML = `
@@ -787,15 +791,25 @@ function renderIncome() {
           <td></td><td class="num">—</td>
           <td class="num">${fmtN(row.rentlio)}</td>
           <td class="num">${fmtN(row.total)}</td>
-          <td class="num" style="color:var(--red)">${fmtN(row.owner ?? -row.rentlio)}</td>`;
+          <td class="num" style="color:var(--red)">${fmtN(row.owner ?? -row.rentlio)}</td>
+          <td></td>`;
       } else {
+        const isPaid = !!paid[row.prop];
+        if (isPaid) tr.style.background = '#f0faf4';
+        const propEsc = row.prop.replace(/'/g, "\\'");
         tr.innerHTML = `
-          <td>${row.prop}</td>
+          <td style="${isPaid ? 'color:var(--muted);text-decoration:line-through' : ''}">${row.prop}</td>
           <td><span class="grp-lbl">${propGroup(row.prop)}</span></td>
           <td class="num">${fmtN(row.agency)}</td>
           <td class="num">${row.rentlio > 0 ? fmtN(row.rentlio) : '—'}</td>
           <td class="num"><strong>${fmtN(row.total)}</strong></td>
-          <td class="num">${row.owner != null ? fmtN(row.owner) : '—'}</td>`;
+          <td class="num">${row.owner != null ? fmtN(row.owner) : '—'}</td>
+          <td style="text-align:center">
+            <button onclick="togglePaid('${propEsc}',${curM},${curY})"
+              style="background:${isPaid ? 'var(--green)' : 'white'};color:${isPaid ? 'white' : 'var(--border)'};border:2px solid ${isPaid ? 'var(--green)' : 'var(--border)'};border-radius:6px;width:32px;height:28px;cursor:pointer;font-size:15px;line-height:1;transition:all .15s">
+              ${isPaid ? '✓' : ''}
+            </button>
+          </td>`;
       }
       tbody.appendChild(tr);
       t1 += row.agency; t2 += row.rentlio; t3 += row.total; t4 += (row.owner || 0);
@@ -1016,6 +1030,8 @@ function render() {
   document.getElementById('rowMain').style.display         = isAnn ? 'none' : '';
   document.getElementById('rowCosts').style.display        = isAnn ? 'none' : '';
   document.getElementById('rowCharts').style.display       = isAnn ? 'none' : '';
+  document.getElementById('incThPaid').style.display       = isAnn ? 'none' : '';
+  document.getElementById('incTfPaid').style.display       = isAnn ? 'none' : '';
 
   if (!isAnn) {
     const dflt = `${curY}-${String(curM).padStart(2,'0')}-01`;
@@ -1138,6 +1154,16 @@ function renderPB() {
   const fmt = fmtN(total);
   document.getElementById('pbTotal').textContent   = fmt + ' BAM';
   document.getElementById('pbTotalHd').textContent = fmt + ' BAM';
+}
+
+// ── Plaćeno vlasniku ───────────────────────────────────────────────
+function getPaidKey(m, y) { return `srm_paid_${y}_${String(m).padStart(2,'0')}`; }
+function getPaid(m, y)    { return JSON.parse(localStorage.getItem(getPaidKey(m,y)) || '{}'); }
+function togglePaid(prop, m, y) {
+  const paid = getPaid(m, y);
+  paid[prop] = !paid[prop];
+  localStorage.setItem(getPaidKey(m,y), JSON.stringify(paid));
+  renderIncome();
 }
 
 // ── Prihod po nekretnini — godišnji ranking ────────────────────────
