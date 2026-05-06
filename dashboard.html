@@ -530,8 +530,19 @@ const FIXED_COSTS = [
   { desc: "Plata Radnica na čišćenju", amount: 1300 },
   { desc: "Računovodstvo",             amount: 200  },
   { desc: "Poslovni prostor",          amount: 300  },
+  { desc: "Lara — plata",              amount: 500, fromYear: 2026, fromMonth: 5 },
 ];
-const FIXED_TOTAL = FIXED_COSTS.reduce((s, c) => s + c.amount, 0); // 3400
+function getFixedCosts(m, y) {
+  return FIXED_COSTS.filter(c => {
+    if (!c.fromYear) return true;
+    if (y > c.fromYear) return true;
+    if (y === c.fromYear && m >= c.fromMonth) return true;
+    return false;
+  });
+}
+function getFixedTotal(m, y) {
+  return getFixedCosts(m, y).reduce((s, c) => s + c.amount, 0);
+}
 
 // ── Kategorije ─────────────────────────────────────────────────────
 const CAT_COLORS = {
@@ -827,7 +838,7 @@ function renderIncome() {
 function renderFixed() {
   const tbody = document.getElementById('fixedBody');
   tbody.innerHTML = '';
-  FIXED_COSTS.forEach(c => {
+  getFixedCosts(curM === 0 ? 12 : curM, curY).forEach(c => {
     const tr = document.createElement('tr');
     tr.className = 'fixed-row';
     tr.innerHTML = `<td>${c.desc}</td><td class="num">${fmtN(c.amount)}</td>`;
@@ -893,11 +904,11 @@ function updateKPIs() {
   if (curM === 0) {
     incData    = getIncTotal(curY);
     varE       = getExpsTotal(curY).reduce((s, e) => s + e.amount, 0);
-    fixedTotal = FIXED_TOTAL * getActiveMonths(curY).length;
+    fixedTotal = getActiveMonths(curY).reduce((s, m) => s + getFixedTotal(m, curY), 0);
   } else {
     incData    = getInc(curM, curY) || [];
     varE       = getExps(curM, curY).reduce((s, e) => s + e.amount, 0);
-    fixedTotal = FIXED_TOTAL;
+    fixedTotal = getFixedTotal(curM, curY);
   }
   const inc  = incData.reduce((s, r) => s + r.total, 0);
   const totE = fixedTotal + varE;
@@ -925,8 +936,11 @@ function updateBar() {
     const d = getInc(m, curY) || [];
     const i = d.reduce((s, r) => s + r.total, 0);
     const v = getExps(m, curY).reduce((s, e) => s + e.amount, 0);
-    inc.push(i); varArr.push(v); netArr.push(i - FIXED_TOTAL - v);
+    const ft = getFixedTotal(m, curY);
+    inc.push(i); varArr.push(v); netArr.push(i - ft - v);
   }
+
+  const fixedData = Array.from({length: 12}, (_, i) => getFixedTotal(i + 1, curY));
 
   if (barInst) barInst.destroy();
   barInst = new Chart(document.getElementById('barChart'), {
@@ -935,7 +949,7 @@ function updateBar() {
       labels,
       datasets: [
         { label: 'Prihod', data: inc, backgroundColor: '#ff670055', borderColor: '#ff6700', borderWidth: 2, borderRadius: 4 },
-        { label: `Fiksni (${fmtN(FIXED_TOTAL)} BAM)`, data: Array(12).fill(FIXED_TOTAL), type: 'line', borderColor: '#95a5a6', backgroundColor: 'transparent', borderWidth: 1.5, borderDash: [6,3], pointRadius: 0, tension: 0 },
+        { label: 'Fiksni troškovi', data: fixedData, type: 'line', borderColor: '#95a5a6', backgroundColor: 'transparent', borderWidth: 1.5, borderDash: [6,3], pointRadius: 0, tension: 0 },
         { label: 'Varijabilni', data: varArr, backgroundColor: '#e74c3c55', borderColor: '#e74c3c', borderWidth: 2, borderRadius: 4 },
         { label: 'Neto', data: netArr, type: 'line', borderColor: '#27ae60', backgroundColor: 'transparent', borderWidth: 2.5, tension: 0.35, pointBackgroundColor: '#27ae60', pointRadius: 4 },
       ]
@@ -996,14 +1010,15 @@ function renderAnnual() {
   months.forEach(m => {
     const inc  = (getInc(m, curY) || []).reduce((s, r) => s + r.total, 0);
     const varE = getExps(m, curY).reduce((s, e) => s + e.amount, 0);
-    const net  = inc - FIXED_TOTAL - varE;
-    tM1 += inc; tM2 += varE; tM3 += FIXED_TOTAL; tM4 += net;
+    const ft   = getFixedTotal(m, curY);
+    const net  = inc - ft - varE;
+    tM1 += inc; tM2 += varE; tM3 += ft; tM4 += net;
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td>${MONTHS[m-1]}</td>
       <td class="num">${fmtN(inc)}</td>
       <td class="num">${fmtN(varE)}</td>
-      <td class="num">${fmtN(FIXED_TOTAL)}</td>
+      <td class="num">${fmtN(ft)}</td>
       <td class="num" style="color:${net >= 0 ? 'var(--green)' : 'var(--red)'}"><strong>${fmtN(net)}</strong></td>`;
     tbody1.appendChild(tr);
   });
