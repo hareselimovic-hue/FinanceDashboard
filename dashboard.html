@@ -1069,10 +1069,8 @@ function render() {
 // ── Export HTML ──────────────────────────────────────────────────
 function exportHTML() {
   const dataJson = JSON.stringify(SRM_EMBEDDED, null, 0);
-  const S = '<!-- SRM_DATA_START -->
-';
-  const E = '
-<!-- SRM_DATA_END -->';
+  const S = '<!-- SRM_DATA_START -->';
+  const E = '<!-- SRM_DATA_END -->';
   const newBlock = S + '<script>var SRM_EMBEDDED=' + dataJson + ';<\/script>' + E;
   const full = document.documentElement.outerHTML;
   const i1 = full.indexOf('<!-- SRM_DATA_START -->');
