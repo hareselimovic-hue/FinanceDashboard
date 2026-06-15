@@ -1071,9 +1071,9 @@ function exportHTML() {
   const dataJson = JSON.stringify(SRM_EMBEDDED, null, 0);
   const S = '<!-- SRM_DATA_START -->';
   const E = '<!-- SRM_DATA_END -->';
-  const newBlock = S + '
-<script>var SRM_EMBEDDED=' + dataJson + ';<' + '\/script>
-' + E;
+  const sc = '<' + 'script>';
+  const es = '<' + '/script>';
+  const newBlock = S + sc + 'var SRM_EMBEDDED=' + dataJson + ';' + es + E;
   const full = document.documentElement.outerHTML;
   const i1 = full.indexOf(S);
   const i2 = full.indexOf(E) + E.length;
@@ -1225,6 +1225,7 @@ function renderAptsRanking() {
 
 // ── Init ───────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', render);
+
 
 </script>
 </body>
