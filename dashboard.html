@@ -530,14 +530,15 @@ const FIXED_COSTS = [
   { desc: "Plata Radnica na čišćenju", amount: 1300 },
   { desc: "Računovodstvo",             amount: 200  },
   { desc: "Poslovni prostor",          amount: 300  },
-  { desc: "Lara — plata",              amount: 500, fromYear: 2026, fromMonth: 5 },
+  { desc: "Lara — plata",              amount: 500,  fromYear: 2026, fromMonth: 5, toYear: 2026, toMonth: 6 },
+  { desc: "Lara — plata",              amount: 1000, fromYear: 2026, fromMonth: 7 },
+  { desc: "Plata Field Agent 2",       amount: 1200, fromYear: 2026, fromMonth: 7 },
 ];
 function getFixedCosts(m, y) {
   return FIXED_COSTS.filter(c => {
-    if (!c.fromYear) return true;
-    if (y > c.fromYear) return true;
-    if (y === c.fromYear && m >= c.fromMonth) return true;
-    return false;
+    const afterFrom = !c.fromYear || y > c.fromYear || (y === c.fromYear && m >= c.fromMonth);
+    const beforeTo  = !c.toYear   || y < c.toYear   || (y === c.toYear  && m <= c.toMonth);
+    return afterFrom && beforeTo;
   });
 }
 function getFixedTotal(m, y) {
