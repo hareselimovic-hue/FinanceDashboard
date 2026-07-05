@@ -300,6 +300,7 @@ tr:hover td { background: #fafbfd; }
         <div class="form-group">
           <label>Kategorija</label>
           <select id="fCat">
+            <option>Plate</option>
             <option>Osoblje</option>
             <option>Marketing</option>
             <option>Održavanje</option>
@@ -546,6 +547,7 @@ function getFixedTotal(m, y) {
 
 // ── Kategorije ─────────────────────────────────────────────────────
 const CAT_COLORS = {
+  "Plate":               "#27ae60",
   "Osoblje":             "#3498db",
   "Marketing":           "#e67e22",
   "Održavanje":          "#e74c3c",
@@ -579,10 +581,18 @@ function onMonthChange(m) { curM = m; render(); }
 function changeYear(d)    { curY += d; render(); }
 
 // ── Storage ────────────────────────────────────────────────────────
-const sk  = (t,m,y) => `srm_${t}_${y}_${String(m).padStart(2,'0')}`;
-const getInc  = (m,y) => { const k=sk('inc',m,y); return SRM_EMBEDDED[k] || JSON.parse(localStorage.getItem(k)||'null'); };
-const setInc  = (m,y,v) => localStorage.setItem(sk('inc',m,y), JSON.stringify(v));
-const getExps = (m,y) => { const k=sk('exp',m,y); return SRM_EMBEDDED[k] || JSON.parse(localStorage.getItem(k)||'[]'); };
+const sk = (t,m,y) => `srm_${t}_${y}_${String(m).padStart(2,'0')}`;
+// Merge localStorage into SRM_EMBEDDED on load — localStorage always wins over embedded defaults.
+// Without this, SRM_EMBEDDED (reset on every page load) shadows any data the user saved.
+for (let _i = 0; _i < localStorage.length; _i++) {
+  const _k = localStorage.key(_i);
+  if (/^srm_(inc|exp)_\d{4}_\d{2}$/.test(_k)) {
+    try { SRM_EMBEDDED[_k] = JSON.parse(localStorage.getItem(_k)); } catch(e) {}
+  }
+}
+const getInc  = (m,y) => SRM_EMBEDDED[sk('inc',m,y)] || null;
+const setInc  = (m,y,v) => { const k=sk('inc',m,y); SRM_EMBEDDED[k]=v; localStorage.setItem(k,JSON.stringify(v)); };
+const getExps = (m,y) => SRM_EMBEDDED[sk('exp',m,y)] || [];
 const setExps = (m,y,v) => { const k=sk('exp',m,y); SRM_EMBEDDED[k]=v; localStorage.setItem(k,JSON.stringify(v)); };
 
 // Auto-select last month that has data
