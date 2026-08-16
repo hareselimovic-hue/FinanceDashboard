@@ -648,7 +648,7 @@ function getIncTotal(y) {
 
 function getExpsTotal(y) {
   const all = [];
-  for (let m = 1; m <= 12; m++) all.push(...getExps(m, y));
+  getActiveMonths(y).forEach(m => all.push(...getExps(m, y)));
   return all;
 }
 
