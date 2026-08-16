@@ -241,6 +241,7 @@ tr:hover td { background: #fafbfd; }
               <th class="num">Prihod agencije</th>
               <th class="num">Varijabilni troškovi</th>
               <th class="num">Fiksni troškovi</th>
+              <th class="num">Dodatne naknade</th>
               <th class="num">Neto</th>
             </tr>
           </thead>
@@ -251,6 +252,7 @@ tr:hover td { background: #fafbfd; }
               <td class="num" id="annM1"></td>
               <td class="num" id="annM2"></td>
               <td class="num" id="annM3"></td>
+              <td class="num" id="annM5"></td>
               <td class="num" id="annM4"></td>
             </tr>
           </tfoot>
@@ -956,9 +958,10 @@ function updateBar() {
   for (let m = 1; m <= 12; m++) {
     const d = getInc(m, curY) || [];
     const i = d.reduce((s, r) => s + r.total, 0);
+    const af = d.reduce((s, r) => s + (r.addfees || 0), 0);
     const v = getExps(m, curY).reduce((s, e) => s + e.amount, 0);
     const ft = getFixedTotal(m, curY);
-    inc.push(i); varArr.push(v); netArr.push(i - ft - v);
+    inc.push(i); varArr.push(v); netArr.push(i + af - ft - v);
   }
 
   const fixedData = Array.from({length: 12}, (_, i) => getFixedTotal(i + 1, curY));
@@ -1026,20 +1029,23 @@ function renderAnnual() {
   const months = getActiveMonths(curY);
   const tbody1 = document.getElementById('annMonthBody');
   tbody1.innerHTML = '';
-  let tM1 = 0, tM2 = 0, tM3 = 0, tM4 = 0;
+  let tM1 = 0, tM2 = 0, tM3 = 0, tM4 = 0, tM5 = 0;
 
   months.forEach(m => {
-    const inc  = (getInc(m, curY) || []).reduce((s, r) => s + r.total, 0);
+    const incRows = getInc(m, curY) || [];
+    const inc  = incRows.reduce((s, r) => s + r.total, 0);
+    const addFees = incRows.reduce((s, r) => s + (r.addfees || 0), 0);
     const varE = getExps(m, curY).reduce((s, e) => s + e.amount, 0);
     const ft   = getFixedTotal(m, curY);
-    const net  = inc - ft - varE;
-    tM1 += inc; tM2 += varE; tM3 += ft; tM4 += net;
+    const net  = inc + addFees - ft - varE;
+    tM1 += inc; tM2 += varE; tM3 += ft; tM4 += net; tM5 += addFees;
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td>${MONTHS[m-1]}</td>
       <td class="num">${fmtN(inc)}</td>
       <td class="num">${fmtN(varE)}</td>
       <td class="num">${fmtN(ft)}</td>
+      <td class="num">${fmtN(addFees)}</td>
       <td class="num" style="color:${net >= 0 ? 'var(--green)' : 'var(--red)'}"><strong>${fmtN(net)}</strong></td>`;
     tbody1.appendChild(tr);
   });
@@ -1047,6 +1053,7 @@ function renderAnnual() {
   document.getElementById('annM1').textContent = fmtN(tM1);
   document.getElementById('annM2').textContent = fmtN(tM2);
   document.getElementById('annM3').textContent = fmtN(tM3);
+  document.getElementById('annM5').textContent = fmtN(tM5);
   const annM4 = document.getElementById('annM4');
   annM4.textContent = fmtN(tM4);
   annM4.style.color = tM4 >= 0 ? 'var(--green)' : 'var(--red)';
