@@ -344,7 +344,7 @@ tr:hover td { background: #fafbfd; }
           <tfoot>
             <tr class="tfoot-row">
               <td>UKUPNO FIKSNI</td>
-              <td class="num">3.400,00</td>
+              <td class="num" id="fixedTotal">3.400,00</td>
             </tr>
           </tfoot>
         </table>
@@ -857,14 +857,16 @@ function renderIncome() {
 
 // ── Fixed costs table ──────────────────────────────────────────────
 function renderFixed() {
+  const m = curM === 0 ? 12 : curM;
   const tbody = document.getElementById('fixedBody');
   tbody.innerHTML = '';
-  getFixedCosts(curM === 0 ? 12 : curM, curY).forEach(c => {
+  getFixedCosts(m, curY).forEach(c => {
     const tr = document.createElement('tr');
     tr.className = 'fixed-row';
     tr.innerHTML = `<td>${c.desc}</td><td class="num">${fmtN(c.amount)}</td>`;
     tbody.appendChild(tr);
   });
+  document.getElementById('fixedTotal').textContent = fmtN(getFixedTotal(m, curY));
 }
 
 // ── Variable expenses ──────────────────────────────────────────────
