@@ -207,7 +207,7 @@ tr:hover td { background: #fafbfd; }
     <div class="kpi fix">
       <div class="label">Fiksni troškovi</div>
       <div class="val" id="kpiFix">3.400,00 BAM</div>
-      <div class="hint">Svaki mjesec isti</div>
+      <div class="hint">Plate, računovodstvo, prostor</div>
     </div>
     <div class="kpi var">
       <div class="label">Varijabilni troškovi</div>
@@ -527,6 +527,14 @@ function calcRentlio(prop) {
   if (LOFT_PROPS.has(prop))      return LOFT_RENTLIO_BAM;
   return DEFAULT_RENTLIO;
 }
+
+// Grupni redovi s fiksnom Rentlio naknadom (upisuje ih generate_reports.py)
+const GROUP_RENTLIO_ROWS = {
+  _armin_rentlio:      'Armin apartmani',
+  _bentbasa_rentlio:   'Bentbaša apartmani',
+  _fivepoints_rentlio: 'Five points',
+  _sarhist_rentlio:    'Sarajevo History apartmani',
+};
 
 function propGroup(prop) {
   if (ARMIN_PROPS.has(prop))    return 'Armin';
@@ -1024,19 +1032,10 @@ function renderIncome() {
     const paid = getPaid(curM, curY);
     data.forEach(row => {
       const tr = document.createElement('tr');
-      if (row.prop === '_armin_rentlio') {
+      if (GROUP_RENTLIO_ROWS[row.prop]) {
         tr.className = 'muted-row';
         tr.innerHTML = `
-          <td>↳ Armin apartmani — Rentlio naknada (fiksno)</td>
-          <td></td><td class="num">—</td>
-          <td class="num">${fmtN(row.rentlio)}</td>
-          <td class="num">${fmtN(row.total)}</td>
-          <td class="num" style="color:var(--red)">${fmtN(row.owner ?? -row.rentlio)}</td>
-          <td></td>`;
-      } else if (row.prop === '_bentbasa_rentlio') {
-        tr.className = 'muted-row';
-        tr.innerHTML = `
-          <td>↳ Bentbaša apartmani — Rentlio naknada (fiksno)</td>
+          <td>↳ ${GROUP_RENTLIO_ROWS[row.prop]} — Rentlio naknada (fiksno)</td>
           <td></td><td class="num">—</td>
           <td class="num">${fmtN(row.rentlio)}</td>
           <td class="num">${fmtN(row.total)}</td>
@@ -1098,6 +1097,11 @@ function addExpense() {
   aEl.style.borderColor = amount > 0 ? '' : 'var(--red)';
   if (!date || !desc || !(amount > 0)) return;
   dEl.style.borderColor = ''; aEl.style.borderColor = '';
+
+  const [dY, dM] = date.split('-').map(Number);
+  if (dY !== curY || dM !== curM) {
+    if (!confirm(`Datum troška je ${MONTHS[dM-1]} ${dY}, a gore je izabran ${MONTHS[curM-1]} ${curY}.\n\nTrošak će biti upisan u ${MONTHS[curM-1]} ${curY}. Nastaviti?\n(Otkaži pa promijeni mjesec gore ako treba drugi mjesec.)`)) return;
+  }
 
   const item = { id: Date.now(), date, cat, desc, amount };
   if (!mutate(sk('exp', curM, curY), cur => [...(cur || []), item], `trošak ${MONTHS[curM-1]} ${curY}`)) return;
@@ -1179,7 +1183,8 @@ function updateBar() {
     const af = d.reduce((s, r) => s + (r.addfees || 0), 0);
     const v = getExps(m, curY).reduce((s, e) => s + e.amount, 0);
     const ft = getFixedTotal(m, curY);
-    inc.push(i); varArr.push(v); netArr.push(i + af - ft - v);
+    // Bez prihoda (mjesec još nije obračunat) neto se ne crta — isto kao KPI koji tada pokazuje "—"
+    inc.push(i); varArr.push(v); netArr.push(d.length ? i + af - ft - v : null);
   }
 
   const fixedData = Array.from({length: 12}, (_, i) => getFixedTotal(i + 1, curY));
