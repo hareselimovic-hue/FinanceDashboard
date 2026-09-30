@@ -1574,13 +1574,6 @@
    "cat": "Osoblje",
    "desc": "Lara plata",
    "amount": 1000
-  },
-  {
-   "id": 2,
-   "date": "2026-09-30",
-   "cat": "Osoblje",
-   "desc": "Emir plata",
-   "amount": 1000
   }
  ],
  "srm_exp_2026_10": [
@@ -1589,13 +1582,6 @@
    "date": "2026-10-31",
    "cat": "Osoblje",
    "desc": "Lara plata",
-   "amount": 1000
-  },
-  {
-   "id": 2,
-   "date": "2026-10-31",
-   "cat": "Osoblje",
-   "desc": "Emir plata",
    "amount": 1000
   }
  ],
@@ -1606,13 +1592,6 @@
    "cat": "Osoblje",
    "desc": "Lara plata",
    "amount": 1000
-  },
-  {
-   "id": 2,
-   "date": "2026-11-30",
-   "cat": "Osoblje",
-   "desc": "Emir plata",
-   "amount": 1000
   }
  ],
  "srm_exp_2026_12": [
@@ -1621,13 +1600,6 @@
    "date": "2026-12-31",
    "cat": "Osoblje",
    "desc": "Lara plata",
-   "amount": 1000
-  },
-  {
-   "id": 2,
-   "date": "2026-12-31",
-   "cat": "Osoblje",
-   "desc": "Emir plata",
    "amount": 1000
   }
  ],
