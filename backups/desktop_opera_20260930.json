@@ -1,0 +1,839 @@
+{
+ "srm_exp_2026_03": [
+  {
+   "id": 1775210055751,
+   "date": "2026-03-01",
+   "cat": "Ostalo",
+   "desc": "Registracija",
+   "amount": 980
+  },
+  {
+   "id": 1775210356667,
+   "date": "2026-03-01",
+   "cat": "Osoblje",
+   "desc": "Dodatno Bakir - gorivo",
+   "amount": 100
+  },
+  {
+   "id": 1775210414089,
+   "date": "2026-03-01",
+   "cat": "Softver / Pretplate",
+   "desc": "Rentlio",
+   "amount": 540
+  },
+  {
+   "id": 1775214010609,
+   "date": "2026-03-01",
+   "cat": "Ostalo",
+   "desc": "Izrada fin. izvjestaja",
+   "amount": 270
+  },
+  {
+   "id": 1775668091956,
+   "date": "2026-03-01",
+   "cat": "Softver / Pretplate",
+   "desc": "PriceLabs",
+   "amount": 213.8
+  }
+ ],
+ "srm_exp_2026_04": [
+  {
+   "id": 1776016747902,
+   "date": "2026-04-01",
+   "cat": "Osoblje",
+   "desc": "Majka Ciscenje 1 dio",
+   "amount": 250
+  },
+  {
+   "id": 1777222864993,
+   "date": "2026-04-01",
+   "cat": "Osoblje",
+   "desc": "Belma CIscenje",
+   "amount": 100
+  },
+  {
+   "id": 1777222872928,
+   "date": "2026-04-01",
+   "cat": "Osoblje",
+   "desc": "Bakir gorivo",
+   "amount": 100
+  },
+  {
+   "id": 1777638804286,
+   "date": "2026-04-01",
+   "cat": "Softver / Pretplate",
+   "desc": "Rentlio",
+   "amount": 560
+  },
+  {
+   "id": 1777638880159,
+   "date": "2026-04-01",
+   "cat": "Softver / Pretplate",
+   "desc": "PriceLabs",
+   "amount": 426
+  },
+  {
+   "id": 1777641121803,
+   "date": "2026-04-01",
+   "cat": "Ostalo",
+   "desc": "Banka",
+   "amount": 1000
+  },
+  {
+   "id": 1778095444202,
+   "date": "2026-04-01",
+   "cat": "Osoblje",
+   "desc": "Lara",
+   "amount": 500
+  },
+  {
+   "id": 1778100176358,
+   "date": "2026-04-01",
+   "cat": "Ostalo",
+   "desc": "Kese i papir",
+   "amount": 50
+  }
+ ],
+ "srm_project_busovaca": [
+  {
+   "id": 1776014566701,
+   "monthLabel": "April 2026",
+   "mIdx": 4,
+   "year": 2026,
+   "desc": "Motorka",
+   "amount": 210
+  },
+  {
+   "id": 1777226620981,
+   "monthLabel": "April 2026",
+   "mIdx": 4,
+   "year": 2026,
+   "desc": "Prozor",
+   "amount": 250
+  },
+  {
+   "id": 1777226630666,
+   "monthLabel": "April 2026",
+   "mIdx": 4,
+   "year": 2026,
+   "desc": "Materija za zid i prozor",
+   "amount": 500
+  },
+  {
+   "id": 1777228188954,
+   "monthLabel": "April 2026",
+   "mIdx": 4,
+   "year": 2026,
+   "desc": "Kosilica, Hidropak",
+   "amount": 1164
+  },
+  {
+   "id": 1777228197559,
+   "monthLabel": "April 2026",
+   "mIdx": 4,
+   "year": 2026,
+   "desc": "Senad",
+   "amount": 100
+  },
+  {
+   "id": 1777228206655,
+   "monthLabel": "April 2026",
+   "mIdx": 4,
+   "year": 2026,
+   "desc": "Stiropor",
+   "amount": 50
+  },
+  {
+   "id": 1777228292045,
+   "monthLabel": "April 2026",
+   "mIdx": 4,
+   "year": 2026,
+   "desc": "Odvoz otpada",
+   "amount": 250
+  },
+  {
+   "id": 1778098600785,
+   "monthLabel": "Maj 2026",
+   "mIdx": 5,
+   "year": 2026,
+   "desc": "Voda materijal",
+   "amount": 364
+  },
+  {
+   "id": 1778098622740,
+   "monthLabel": "Maj 2026",
+   "mIdx": 5,
+   "year": 2026,
+   "desc": "Ostali materijal za garazu",
+   "amount": 1200
+  },
+  {
+   "id": 1778098628881,
+   "monthLabel": "Maj 2026",
+   "mIdx": 5,
+   "year": 2026,
+   "desc": "Senad",
+   "amount": 200
+  },
+  {
+   "id": 1778770136694,
+   "monthLabel": "Maj 2026",
+   "mIdx": 5,
+   "year": 2026,
+   "desc": "Materija za plcu garaza",
+   "amount": 470
+  },
+  {
+   "id": 1778770151156,
+   "monthLabel": "Maj 2026",
+   "mIdx": 5,
+   "year": 2026,
+   "desc": "Prozor mali wc",
+   "amount": 160
+  },
+  {
+   "id": 1778962632978,
+   "monthLabel": "Maj 2026",
+   "mIdx": 5,
+   "year": 2026,
+   "desc": "Vrata WC",
+   "amount": 270
+  },
+  {
+   "id": 1779993410689,
+   "monthLabel": "Maj 2026",
+   "mIdx": 5,
+   "year": 2026,
+   "desc": "Laminar",
+   "amount": 680
+  },
+  {
+   "id": 1780513208518,
+   "monthLabel": "Maj 2026",
+   "mIdx": 5,
+   "year": 2026,
+   "desc": "Escajg i ostalo",
+   "amount": 100
+  },
+  {
+   "id": 1781613902263,
+   "monthLabel": "Juni 2026",
+   "mIdx": 6,
+   "year": 2026,
+   "desc": "Potopna pumpa",
+   "amount": 105
+  },
+  {
+   "id": 1783283967937,
+   "monthLabel": "Juni 2026",
+   "mIdx": 6,
+   "year": 2026,
+   "desc": "Plocice WC",
+   "amount": 300
+  },
+  {
+   "id": 1783283980586,
+   "monthLabel": "Juni 2026",
+   "mIdx": 6,
+   "year": 2026,
+   "desc": "Materijal za plocice WC",
+   "amount": 100
+  },
+  {
+   "id": 1783284523568,
+   "monthLabel": "Juni 2026",
+   "mIdx": 6,
+   "year": 2026,
+   "desc": "Adis",
+   "amount": 1000
+  },
+  {
+   "id": 1784383650333,
+   "monthLabel": "Juli 2026",
+   "mIdx": 7,
+   "year": 2026,
+   "desc": "Bager",
+   "amount": 400
+  },
+  {
+   "id": 1784383656394,
+   "monthLabel": "Juli 2026",
+   "mIdx": 7,
+   "year": 2026,
+   "desc": "Senad",
+   "amount": 100
+  },
+  {
+   "id": 1785084878482,
+   "monthLabel": "Juli 2026",
+   "mIdx": 7,
+   "year": 2026,
+   "desc": "Trimer, šolja, vodokotlic, kabal struja",
+   "amount": 650
+  },
+  {
+   "id": 1785698425714,
+   "monthLabel": "Juli 2026",
+   "mIdx": 7,
+   "year": 2026,
+   "desc": "Mermer",
+   "amount": 250
+  },
+  {
+   "id": 1790800693427,
+   "monthLabel": "August 2026",
+   "mIdx": 8,
+   "year": 2026,
+   "desc": "Kuhinja",
+   "amount": 710
+  },
+  {
+   "id": 1790800712923,
+   "monthLabel": "August 2026",
+   "mIdx": 8,
+   "year": 2026,
+   "desc": "Badžo",
+   "amount": 1000
+  }
+ ],
+ "srm_exp_2026_05": [
+  {
+   "id": 1778770174830,
+   "date": "2026-05-01",
+   "cat": "Osoblje",
+   "desc": "Majka ciscenje",
+   "amount": 250
+  },
+  {
+   "id": 1778770218070,
+   "date": "2026-05-01",
+   "cat": "Ostalo",
+   "desc": "Namir slikanje",
+   "amount": 400
+  },
+  {
+   "id": 1779993766785,
+   "date": "2026-05-01",
+   "cat": "Održavanje",
+   "desc": "Veseraj",
+   "amount": 1200
+  },
+  {
+   "id": 1780513245941,
+   "date": "2026-05-01",
+   "cat": "Osoblje",
+   "desc": "Emir Field Agent",
+   "amount": 300
+  },
+  {
+   "id": 1780513257720,
+   "date": "2026-05-01",
+   "cat": "Osoblje",
+   "desc": "Bakir gorivo",
+   "amount": 100
+  },
+  {
+   "id": 1780513942781,
+   "date": "2026-05-01",
+   "cat": "Softver / Pretplate",
+   "desc": "Rentlio",
+   "amount": 500
+  },
+  {
+   "id": 1780680851617,
+   "date": "2026-05-01",
+   "cat": "Softver / Pretplate",
+   "desc": "PriceLabs",
+   "amount": 434.35
+  },
+  {
+   "id": 1780680886461,
+   "date": "2026-05-01",
+   "cat": "Osoblje",
+   "desc": "Belma",
+   "amount": 80
+  },
+  {
+   "id": 1781203014371,
+   "date": "2026-05-01",
+   "cat": "Ostalo",
+   "desc": "Banka",
+   "amount": 1571
+  }
+ ],
+ "srm_exp_2026_06": [
+  {
+   "id": 1783284016299,
+   "date": "2026-06-01",
+   "cat": "Osoblje",
+   "desc": "Belma Ciscenje",
+   "amount": 100
+  },
+  {
+   "id": 1783284436023,
+   "date": "2026-06-01",
+   "cat": "Osoblje",
+   "desc": "Lara plata",
+   "amount": 200
+  },
+  {
+   "id": 1783284457048,
+   "date": "2026-06-01",
+   "cat": "Osoblje",
+   "desc": "Emir plata",
+   "amount": 1000
+  },
+  {
+   "id": 1783284474078,
+   "date": "2026-06-01",
+   "cat": "Održavanje",
+   "desc": "Auto popravka",
+   "amount": 750
+  },
+  {
+   "id": 1783284537634,
+   "date": "2026-06-01",
+   "cat": "Osoblje",
+   "desc": "Majka",
+   "amount": 800
+  },
+  {
+   "id": 1783284634186,
+   "date": "2026-06-01",
+   "cat": "Softver / Pretplate",
+   "desc": "Rentlio",
+   "amount": 531
+  },
+  {
+   "id": 1783287679845,
+   "date": "2026-06-01",
+   "cat": "Ostalo",
+   "desc": "Lampa Bistrik",
+   "amount": 60
+  },
+  {
+   "id": 1783530233319,
+   "date": "2026-06-01",
+   "cat": "Ostalo",
+   "desc": "Banka",
+   "amount": 1100
+  },
+  {
+   "id": 1783530291994,
+   "date": "2026-06-01",
+   "cat": "Osoblje",
+   "desc": "Bakir dodatno",
+   "amount": 100
+  },
+  {
+   "id": 1784818927314,
+   "date": "2026-06-01",
+   "cat": "Ostalo",
+   "desc": "Veseraj",
+   "amount": 720
+  }
+ ],
+ "srm_exp_2026_07": [
+  {
+   "id": 1784383688196,
+   "date": "2026-07-01",
+   "cat": "Održavanje",
+   "desc": "Auto popravka",
+   "amount": 1000
+  },
+  {
+   "id": 1784818789145,
+   "date": "2026-07-01",
+   "cat": "Održavanje",
+   "desc": "Print plastificiranih kartica",
+   "amount": 100
+  },
+  {
+   "id": 1784818800856,
+   "date": "2026-07-01",
+   "cat": "Ostalo",
+   "desc": "Donacija",
+   "amount": 100
+  },
+  {
+   "id": 1784818846020,
+   "date": "2026-07-01",
+   "cat": "Ostalo",
+   "desc": "Higijenski materijal",
+   "amount": 520
+  },
+  {
+   "id": 1784818855398,
+   "date": "2026-07-01",
+   "cat": "Ostalo",
+   "desc": "Namir slikanje",
+   "amount": 1220
+  },
+  {
+   "id": 1784818910339,
+   "date": "2026-07-01",
+   "cat": "Ostalo",
+   "desc": "Veseraj",
+   "amount": 1200
+  },
+  {
+   "id": 1784818984874,
+   "date": "2026-07-01",
+   "cat": "Osoblje",
+   "desc": "Amel Bonus ulazni",
+   "amount": 200
+  },
+  {
+   "id": 1784819042972,
+   "date": "2026-07-01",
+   "cat": "Osoblje",
+   "desc": "Plata Radnica na ciscenju 2",
+   "amount": 1400
+  },
+  {
+   "id": 1785084848132,
+   "date": "2026-07-01",
+   "cat": "Softver / Pretplate",
+   "desc": "Hosting",
+   "amount": 68
+  },
+  {
+   "id": 1785683114276,
+   "date": "2026-07-01",
+   "cat": "Osoblje",
+   "desc": "Bakir Bonus",
+   "amount": 300
+  },
+  {
+   "id": 1785683234034,
+   "date": "2026-07-01",
+   "cat": "Osoblje",
+   "desc": "Plata Radnica Sicenje - MIna",
+   "amount": 350
+  },
+  {
+   "id": 1785683443415,
+   "date": "2026-07-01",
+   "cat": "Softver / Pretplate",
+   "desc": "Rentlio",
+   "amount": 770
+  },
+  {
+   "id": 1785683980208,
+   "date": "2026-07-01",
+   "cat": "Softver / Pretplate",
+   "desc": "Price Labs",
+   "amount": 760
+  },
+  {
+   "id": 1785684488628,
+   "date": "2026-07-01",
+   "cat": "Ostalo",
+   "desc": "Banka",
+   "amount": 1900
+  },
+  {
+   "id": 1785687509860,
+   "date": "2026-07-01",
+   "cat": "Osoblje",
+   "desc": "Majka Ciscenje",
+   "amount": 1200
+  },
+  {
+   "id": 1785696432956,
+   "date": "2026-07-01",
+   "cat": "Osoblje",
+   "desc": "Amel bonus",
+   "amount": 200
+  }
+ ],
+ "srm_exp_2026_08": [
+  {
+   "id": 1786892891213,
+   "date": "2026-08-01",
+   "cat": "Osoblje",
+   "desc": "Mia Čišćenje",
+   "amount": 350
+  },
+  {
+   "id": 1786893078987,
+   "date": "2026-08-01",
+   "cat": "Ostalo",
+   "desc": "Troskovi reprezentacije",
+   "amount": 300
+  },
+  {
+   "id": 1786893092551,
+   "date": "2026-08-01",
+   "cat": "Ostalo",
+   "desc": "Gorivo Bakir",
+   "amount": 150
+  },
+  {
+   "id": 1786893214842,
+   "date": "2026-08-01",
+   "cat": "Ostalo",
+   "desc": "Sudski trošak",
+   "amount": 105
+  },
+  {
+   "id": 1788009258927,
+   "date": "2026-08-01",
+   "cat": "Ostalo",
+   "desc": "Trosak oprema",
+   "amount": 100
+  },
+  {
+   "id": 1788009304587,
+   "date": "2026-08-01",
+   "cat": "Ostalo",
+   "desc": "Stalaže 2",
+   "amount": 100
+  },
+  {
+   "id": 1788009626423,
+   "date": "2026-08-01",
+   "cat": "Održavanje",
+   "desc": "Servis auto",
+   "amount": 300
+  },
+  {
+   "id": 1788464488824,
+   "date": "2026-08-01",
+   "cat": "Osoblje",
+   "desc": "Majka plata",
+   "amount": 1200
+  },
+  {
+   "id": 1788464495062,
+   "date": "2026-08-01",
+   "cat": "Osoblje",
+   "desc": "Donacija",
+   "amount": 200
+  },
+  {
+   "id": 1788464578726,
+   "date": "2026-08-01",
+   "cat": "Softver / Pretplate",
+   "desc": "Price Labs",
+   "amount": 1527
+  },
+  {
+   "id": 1788464632828,
+   "date": "2026-08-01",
+   "cat": "Osoblje",
+   "desc": "Mina Ciscenje",
+   "amount": 140
+  },
+  {
+   "id": 1788465933250,
+   "date": "2026-08-01",
+   "cat": "Softver / Pretplate",
+   "desc": "Rentlio",
+   "amount": 750
+  },
+  {
+   "id": 1788466446381,
+   "date": "2026-08-01",
+   "cat": "Ostalo",
+   "desc": "RIS",
+   "amount": 325
+  },
+  {
+   "id": 1788633435229,
+   "date": "2026-08-01",
+   "cat": "Ostalo",
+   "desc": "Auto Skoda 1 mjesec",
+   "amount": 500
+  },
+  {
+   "id": 1788807794585,
+   "date": "2026-08-01",
+   "cat": "Ostalo",
+   "desc": "Veseraj Infinity",
+   "amount": 878
+  },
+  {
+   "id": 1788809293290,
+   "date": "2026-08-01",
+   "cat": "Ostalo",
+   "desc": "Banka",
+   "amount": 1093
+  },
+  {
+   "id": 1788894774085,
+   "date": "2026-08-01",
+   "cat": "Ostalo",
+   "desc": "Veseraj",
+   "amount": 2200
+  }
+ ],
+ "srm_paid_2026_04": {
+  "Apartman Loft": true,
+  "Apartment Baščaršija": true,
+  "Apartment Bistrik": true,
+  "Luxury apartment Kovači": true,
+  "Cozy & Modern apartment - Miljacka": true,
+  "City View apartment - Isevića Sokak": true,
+  "Modern apartment Akademija": true,
+  "The Couple's Corner": true,
+  "The Urban suite": true,
+  "The classic room": true,
+  "Grbavica Residence": true,
+  "Otoka 2bdr apartment": true,
+  "Otoka 1bdr apartment": true,
+  "Apartment Jezero": true,
+  "Apartman Vraca 2": true,
+  "Avenija Comfort": true,
+  "Cozy apartment Marijin Dvor": true,
+  "Apartman": true,
+  "Modern Elegance Residence - Otes": true,
+  "Grbavica Lux": true,
+  "Cozy 2bdr Apartment - Muzička": true,
+  "2bdr apartment - Sutjeska": true,
+  "City Hall apartment": true,
+  "Sarajevo Waves": true,
+  "Skyline apartment": true,
+  "Apartman Green nest": true,
+  "A1 apartman Bentbaša": true,
+  "A2 apartment Bentbaša": true
+ },
+ "srm_paid_2026_05": {
+  "Apartman Loft": true,
+  "Apartment Bistrik": true,
+  "2bdr apartment - Sutjeska": true,
+  "Cozy Coco": true,
+  "Modern apartment Akademija": true,
+  "City View apartment - Isevića Sokak": true,
+  "Luxury apartment Kovači": true,
+  "Apartment Cable car": true,
+  "Apartman": true,
+  "Cozy 1bdr apartment Skenderija": true,
+  "Apartman Vraca 1": true,
+  "Apartman Vraca 2": true,
+  "Apartment Jezero": true,
+  "Grbavica Residence": true,
+  "Otoka 1bdr apartment": true,
+  "The Couple's Corner": true,
+  "The Urban suite": true,
+  "The classic room": true,
+  "Luxury Skenderija": true,
+  "City Hall apartment": true,
+  "Cozy apartment Marijin Dvor": true,
+  "Cozy 2bdr Apartment - Muzička": true,
+  "Grbavica Lux": true,
+  "Apartman Green nest": true,
+  "Sarajevo Waves": true,
+  "Skyline apartment": true,
+  "A1 apartman Bentbaša": true,
+  "A2 apartment Bentbaša": true
+ },
+ "srm_paid_2026_06": {
+  "Apartman Loft": true,
+  "Apartment Bistrik": true,
+  "The Couple's Corner": true,
+  "The Urban suite": true,
+  "The classic room": true,
+  "Grbavica Residence": true,
+  "Modern apartment Akademija": true,
+  "Apartman Vraca 1": true,
+  "Apartman Vraca 2": true,
+  "Cozy Coco": true,
+  "City View apartment - Isevića Sokak": true,
+  "Luxury Skenderija": true,
+  "2bdr apartment - Sutjeska": true,
+  "Apartman": true,
+  "Apartment Cable car": true,
+  "Grbavica Lux": true,
+  "Modern apartment - Željeznička": true,
+  "Cozy 1bdr apartment Skenderija": true,
+  "City Hall apartment": true,
+  "Apartment Jezero": true,
+  "Avenija Comfort": true,
+  "Apartman Green nest": true,
+  "Cozy apartment Marijin Dvor": true,
+  "Cozy 2bdr Apartment - Muzička": true,
+  "Skyline apartment": true,
+  "Sarajevo Waves": true,
+  "Apartment Verde": true,
+  "A1 apartman Bentbaša": true,
+  "A2 apartment Bentbaša": true
+ },
+ "srm_paid_2026_07": {
+  "2bdr apartment - Sutjeska": true,
+  "Apartman Loft": true,
+  "Five points - Apartment 5 - 2bdr": true,
+  "Five points - Studio I": true,
+  "Five points - Studio II": true,
+  "Five points - Studio III": true,
+  "Five points - Studio IV": true,
+  "Modern apartment Akademija": true,
+  "The Couple's Corner": true,
+  "The Urban suite": true,
+  "The classic room": true,
+  "Grbavica Residence": true,
+  "Apartman": true,
+  "Apartment Bistrik": true,
+  "Apartment Verde": true,
+  "Cozy Coco": true,
+  "City View apartment - Isevića Sokak": true,
+  "Luxury Skenderija": true,
+  "Modern apartment - Željeznička": true,
+  "Avenija Comfort": true,
+  "Cozy apartment Marijin Dvor": true,
+  "Luxury apartment Kovači": true,
+  "Otoka 2bdr apartment": true,
+  "Cozy 1bdr apartment Skenderija": true,
+  "City Hall apartment": true,
+  "Cozy 2bdr Apartment - Muzička": true,
+  "Grbavica Lux": true,
+  "Otoka 1bdr apartment": true,
+  "Apartment Jezero": true,
+  "Apartman Vraca 1": true,
+  "Apartman Vraca 2": true,
+  "Apartman Green nest": true
+ },
+ "srm_paid_2026_08": {
+  "Apartment Koševo 36": true,
+  "Apartment Bistrik": true,
+  "Apartman Loft": true,
+  "2bdr apartment - Sutjeska": true,
+  "The Couple's Corner": true,
+  "The Urban suite": true,
+  "The classic room": true,
+  "Grbavica Residence": true,
+  "Cozy Coco": true,
+  "Five points - Apartment 5 - 2bdr": true,
+  "Five points - Studio II": true,
+  "Five points - Studio IV": true,
+  "Five points - Studio III": true,
+  "Five points - Studio I": true,
+  "Modern apartment Akademija": true,
+  "Apartment Verde": true,
+  "Cozy 1bdr apartment Skenderija": true,
+  "Luxury apartment Kovači": true,
+  "City View apartment - Isevića Sokak": true,
+  "King Tvrtko - Sarajevo History apartments": true,
+  "Modern Studio - Sarajevo History apartments": true,
+  "Deluxe Studio - Sarajevo History apartments (": true,
+  "2 BDR - Sarajevo History apartments (August B": true,
+  "Modern apartment - Željeznička": true,
+  "Otoka 2bdr apartment": true,
+  "Avenija Comfort": true,
+  "Apartment Cable car": true,
+  "Apartman Boccone": true,
+  "Apartman Vraca 1": true,
+  "Apartman Vraca 2": true,
+  "Cozy apartment Marijin Dvor": true,
+  "Cozy 1bdr - Bulevar": true,
+  "Apartment Jezero": true,
+  "Spacious 2bdr Titova 60": true,
+  "Grbavica Lux": true,
+  "Luxury Skenderija": true,
+  "Skyline apartment": true,
+  "City Hall apartment": true,
+  "Apartman": true,
+  "Apartman Green nest": true,
+  "Presidential apartment Titova": true
+ }
+}
