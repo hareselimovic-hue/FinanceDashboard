@@ -545,17 +545,23 @@ function propGroup(prop) {
 
 // ── Fiksni troškovi ────────────────────────────────────────────────
 const FIXED_COSTS = [
-  { desc: "Plata Field agent",         amount: 1600, toYear: 2026, toMonth: 7 },
-  { desc: "Plata Field agent",         amount: 1800, fromYear: 2026, fromMonth: 8 },
+  // do augusta 2026 (staro stanje)
+  { desc: "Plata Field agent",         amount: 1600, toYear: 2026, toMonth: 8 },
+  { desc: "Plata Radnica na čišćenju", amount: 1300, toYear: 2026, toMonth: 8 },
+  { desc: "Lara — plata",              amount: 500,  fromYear: 2026, fromMonth: 5, toYear: 2026, toMonth: 6 },
+  { desc: "Lara — plata",              amount: 1000, fromYear: 2026, fromMonth: 7, toYear: 2026, toMonth: 8 },
   { desc: "Plata Field Agent 2",       amount: 1200, fromYear: 2026, fromMonth: 7, toYear: 2026, toMonth: 7 },
-  { desc: "Plata Field Agent 2",       amount: 1600, fromYear: 2026, fromMonth: 8 },
-  { desc: "Plata Radnica na čišćenju", amount: 1300, toYear: 2026, toMonth: 7 },
-  { desc: "Plata Radnica na čišćenju", amount: 1400, fromYear: 2026, fromMonth: 8 },
-  { desc: "Plata Radnica na čišćenju 2", amount: 1300, fromYear: 2026, fromMonth: 8 },
+  { desc: "Plata Field Agent 2",       amount: 1400, fromYear: 2026, fromMonth: 8, toYear: 2026, toMonth: 8 },
+  { desc: "Plata Radnica na čišćenju 2", amount: 1400, fromYear: 2026, fromMonth: 8, toYear: 2026, toMonth: 8 },
+  // od septembra 2026
+  { desc: "Plata Field agent",         amount: 1800, fromYear: 2026, fromMonth: 9 },
+  { desc: "Plata Field Agent 2",       amount: 1600, fromYear: 2026, fromMonth: 9 },
+  { desc: "Plata Radnica na čišćenju", amount: 1400, fromYear: 2026, fromMonth: 9 },
+  { desc: "Plata Radnica na čišćenju 2", amount: 1300, fromYear: 2026, fromMonth: 9 },
+  { desc: "Lara — plata",              amount: 1000, fromYear: 2026, fromMonth: 9 },
+  // svi mjeseci
   { desc: "Računovodstvo",             amount: 200  },
   { desc: "Poslovni prostor",          amount: 300  },
-  { desc: "Lara — plata",              amount: 500,  fromYear: 2026, fromMonth: 5, toYear: 2026, toMonth: 6 },
-  { desc: "Lara — plata",              amount: 1000, fromYear: 2026, fromMonth: 7, toYear: 2026, toMonth: 7 },
 ];
 function getFixedCosts(m, y) {
   return FIXED_COSTS.filter(c => {
