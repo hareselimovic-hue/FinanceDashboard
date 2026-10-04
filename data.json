@@ -3255,10 +3255,10 @@
   },
   {
    "prop": "Deluxe 2BDR apartment prvt Garage",
-   "agency": 612.0191,
-   "rentlio": 10.0,
-   "total": 622.0191,
-   "owner": 1418.0446,
+   "agency": 405.5985,
+   "rentlio": 0.0,
+   "total": 405.5985,
+   "owner": 1634.4652,
    "addfees": 0.0
   },
   {
@@ -3433,13 +3433,6 @@
    "rentlio": 20.0,
    "total": 20.0,
    "owner": -20.0
-  },
-  {
-   "prop": "_sarhist_rentlio",
-   "agency": 0,
-   "rentlio": 40.0,
-   "total": 40.0,
-   "owner": -40.0
   }
  ]
 }
