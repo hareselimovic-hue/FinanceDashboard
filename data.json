@@ -3083,5 +3083,363 @@
   "Apartman": true,
   "Apartman Green nest": true,
   "Presidential apartment Titova": true
- }
+ },
+ "srm_inc_2026_09": [
+  {
+   "prop": "2 BDR - Sarajevo History apartments (August B",
+   "agency": 253.6581,
+   "rentlio": 0.0,
+   "total": 253.6581,
+   "owner": 849.2032,
+   "addfees": 0.0
+  },
+  {
+   "prop": "2 BR Duplex - Bistrik",
+   "agency": 75.362,
+   "rentlio": 10.0,
+   "total": 85.362,
+   "owner": 165.8448,
+   "addfees": 0.0
+  },
+  {
+   "prop": "2bdr apartment - Sutjeska",
+   "agency": 571.6607,
+   "rentlio": 10.0,
+   "total": 581.6607,
+   "owner": 1323.8751,
+   "addfees": 0.0
+  },
+  {
+   "prop": "A1 apartman Bentbaša",
+   "agency": 524.4157,
+   "rentlio": 0.0,
+   "total": 524.4157,
+   "owner": 1223.6367,
+   "addfees": 61.2566
+  },
+  {
+   "prop": "A2 apartment Bentbaša",
+   "agency": 386.7263,
+   "rentlio": 0.0,
+   "total": 386.7263,
+   "owner": 902.3613,
+   "addfees": 0.0
+  },
+  {
+   "prop": "Apartman",
+   "agency": 309.6702,
+   "rentlio": 0.0,
+   "total": 309.6702,
+   "owner": 929.0107,
+   "addfees": 0.0
+  },
+  {
+   "prop": "Apartman Boccone",
+   "agency": 251.4992,
+   "rentlio": 10.0,
+   "total": 261.4992,
+   "owner": 576.8314,
+   "addfees": 61.4522
+  },
+  {
+   "prop": "Apartman Green nest",
+   "agency": 350.0699,
+   "rentlio": 10.0,
+   "total": 360.0699,
+   "owner": 806.8299,
+   "addfees": 31.9191
+  },
+  {
+   "prop": "Apartman Loft",
+   "agency": 575.8361,
+   "rentlio": 9.78,
+   "total": 585.6152,
+   "owner": 1333.8383,
+   "addfees": 29.6504
+  },
+  {
+   "prop": "Apartman Vraca 2",
+   "agency": 105.1102,
+   "rentlio": 10.0,
+   "total": 115.1102,
+   "owner": 235.2572,
+   "addfees": 0.0
+  },
+  {
+   "prop": "Apartment Bistrik",
+   "agency": 409.0374,
+   "rentlio": 10.0,
+   "total": 419.0374,
+   "owner": 944.4206,
+   "addfees": 0.0
+  },
+  {
+   "prop": "Apartment Cable car",
+   "agency": 499.3231,
+   "rentlio": 10.0,
+   "total": 509.3231,
+   "owner": 1155.0872,
+   "addfees": 0.0
+  },
+  {
+   "prop": "Apartment Jezero",
+   "agency": 183.8437,
+   "rentlio": 10.0,
+   "total": 193.8437,
+   "owner": 418.9687,
+   "addfees": 0.0
+  },
+  {
+   "prop": "Apartment Mis Irbina",
+   "agency": 248.4964,
+   "rentlio": 10.0,
+   "total": 258.4964,
+   "owner": 569.825,
+   "addfees": 0.0
+  },
+  {
+   "prop": "Apartment Verde",
+   "agency": 41.4987,
+   "rentlio": 10.0,
+   "total": 51.4987,
+   "owner": 86.8303,
+   "addfees": 0.0
+  },
+  {
+   "prop": "Avenija Comfort",
+   "agency": 1135.0581,
+   "rentlio": 0.0,
+   "total": 1135.0581,
+   "owner": 2203.3481,
+   "addfees": 0.0
+  },
+  {
+   "prop": "City Hall apartment",
+   "agency": 1064.4484,
+   "rentlio": 10.0,
+   "total": 1074.4484,
+   "owner": 2473.7128,
+   "addfees": 37.6302
+  },
+  {
+   "prop": "City View apartment - Isevića Sokak",
+   "agency": 488.8719,
+   "rentlio": 10.0,
+   "total": 498.8719,
+   "owner": 1130.7012,
+   "addfees": 83.201
+  },
+  {
+   "prop": "Cozy 1bdr apartment Skenderija",
+   "agency": 334.7921,
+   "rentlio": 10.0,
+   "total": 344.7921,
+   "owner": 771.1816,
+   "addfees": 15.9596
+  },
+  {
+   "prop": "Cozy Coco",
+   "agency": 261.4865,
+   "rentlio": 10.0,
+   "total": 271.4865,
+   "owner": 600.1351,
+   "addfees": 0.0
+  },
+  {
+   "prop": "Cozy apartment Marijin Dvor",
+   "agency": 212.6541,
+   "rentlio": 10.0,
+   "total": 222.6541,
+   "owner": 486.193,
+   "addfees": 23.7438
+  },
+  {
+   "prop": "Deluxe 2BDR apartment prvt Garage",
+   "agency": 612.0191,
+   "rentlio": 10.0,
+   "total": 622.0191,
+   "owner": 1418.0446,
+   "addfees": 0.0
+  },
+  {
+   "prop": "Deluxe Studio - Sarajevo History apartments (",
+   "agency": 90.8931,
+   "rentlio": 0.0,
+   "total": 90.8931,
+   "owner": 304.2941,
+   "addfees": 3.9899
+  },
+  {
+   "prop": "Five points - Apartment 5 - 2bdr",
+   "agency": 405.732,
+   "rentlio": 0.0,
+   "total": 405.732,
+   "owner": 1217.1961,
+   "addfees": 0.0
+  },
+  {
+   "prop": "Five points - Studio I",
+   "agency": 118.1664,
+   "rentlio": 0.0,
+   "total": 118.1664,
+   "owner": 354.4991,
+   "addfees": 3.9899
+  },
+  {
+   "prop": "Five points - Studio II",
+   "agency": 439.5293,
+   "rentlio": 0.0,
+   "total": 439.5293,
+   "owner": 1318.5878,
+   "addfees": 0.0
+  },
+  {
+   "prop": "Five points - Studio III",
+   "agency": 223.07,
+   "rentlio": 0.0,
+   "total": 223.07,
+   "owner": 669.21,
+   "addfees": 0.0
+  },
+  {
+   "prop": "Five points - Studio IV",
+   "agency": 139.4033,
+   "rentlio": 0.0,
+   "total": 139.4033,
+   "owner": 418.2098,
+   "addfees": 0.0
+  },
+  {
+   "prop": "Grbavica Lux",
+   "agency": 493.8197,
+   "rentlio": 10.0,
+   "total": 503.8197,
+   "owner": 1142.246,
+   "addfees": 0.0
+  },
+  {
+   "prop": "Grbavica Residence",
+   "agency": 537.4621,
+   "rentlio": 0.0,
+   "total": 537.4621,
+   "owner": 1254.0782,
+   "addfees": 0.0
+  },
+  {
+   "prop": "King Tvrtko - Sarajevo History apartments",
+   "agency": 106.2043,
+   "rentlio": 0.0,
+   "total": 106.2043,
+   "owner": 355.5535,
+   "addfees": 0.0
+  },
+  {
+   "prop": "Luxury Skenderija",
+   "agency": 187.4135,
+   "rentlio": 10.0,
+   "total": 197.4135,
+   "owner": 427.2982,
+   "addfees": 0.0
+  },
+  {
+   "prop": "Modern Studio - Sarajevo History apartments",
+   "agency": 80.5845,
+   "rentlio": 0.0,
+   "total": 80.5845,
+   "owner": 269.7829,
+   "addfees": 0.0
+  },
+  {
+   "prop": "Modern apartment - Željeznička",
+   "agency": 232.0358,
+   "rentlio": 10.0,
+   "total": 242.0358,
+   "owner": 531.4168,
+   "addfees": 0.0
+  },
+  {
+   "prop": "Modern apartment Akademija",
+   "agency": 562.0927,
+   "rentlio": 10.0,
+   "total": 572.0927,
+   "owner": 1301.5496,
+   "addfees": 11.9697
+  },
+  {
+   "prop": "Otoka 1bdr apartment",
+   "agency": 282.9051,
+   "rentlio": 10.0,
+   "total": 292.9051,
+   "owner": 650.112,
+   "addfees": 0.0
+  },
+  {
+   "prop": "Presidential apartment Titova",
+   "agency": 312.2819,
+   "rentlio": 10.0,
+   "total": 322.2819,
+   "owner": 718.6578,
+   "addfees": 41.6201
+  },
+  {
+   "prop": "Sarajevo Waves",
+   "agency": 653.1707,
+   "rentlio": 10.0,
+   "total": 663.1707,
+   "owner": 1514.0651,
+   "addfees": 0.0
+  },
+  {
+   "prop": "Skyline apartment",
+   "agency": 601.0862,
+   "rentlio": 10.0,
+   "total": 611.0862,
+   "owner": 1392.5345,
+   "addfees": 139.0986
+  },
+  {
+   "prop": "The Couple's Corner",
+   "agency": 156.9486,
+   "rentlio": 0.0,
+   "total": 156.9486,
+   "owner": 366.2134,
+   "addfees": 7.9798
+  },
+  {
+   "prop": "The classic room",
+   "agency": 32.128,
+   "rentlio": 0.0,
+   "total": 32.128,
+   "owner": 74.9654,
+   "addfees": 0.0
+  },
+  {
+   "prop": "_armin_rentlio",
+   "agency": 0,
+   "rentlio": 40.0,
+   "total": 40.0,
+   "owner": -40.0
+  },
+  {
+   "prop": "_bentbasa_rentlio",
+   "agency": 0,
+   "rentlio": 10.0,
+   "total": 10.0,
+   "owner": -10.0
+  },
+  {
+   "prop": "_fivepoints_rentlio",
+   "agency": 0,
+   "rentlio": 20.0,
+   "total": 20.0,
+   "owner": -20.0
+  },
+  {
+   "prop": "_sarhist_rentlio",
+   "agency": 0,
+   "rentlio": 40.0,
+   "total": 40.0,
+   "owner": -40.0
+  }
+ ]
 }
