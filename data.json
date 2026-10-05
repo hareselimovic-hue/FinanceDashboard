@@ -3433,6 +3433,13 @@
    "rentlio": 20.0,
    "total": 20.0,
    "owner": -20.0
+  },
+  {
+   "prop": "_sarhist_rentlio",
+   "agency": 0,
+   "rentlio": 10.0,
+   "total": 10.0,
+   "owner": -10.0
   }
  ]
 }
